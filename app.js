@@ -16,7 +16,8 @@ var indexadmin = require('./routes/Admin/index');
 var QLHocSinh = require('./routes/Admin/QLHocSinh.Route');
 var QLLopHoc = require('./routes/Admin/QLLopHoc.Route');
 var QLTaiKhoan = require('./routes/Admin/QLTaiKhoan.Route');
-
+var QLMonHoc = require('./routes/Admin/QLMonHoc.Route');
+var QLHocKy = require('./routes/Admin/QLHocKy.Route');
 //===================admin=================
 
 
@@ -85,16 +86,18 @@ require('./routes/Admin/Auth.Route')(app, passport);
 
 
 //===================admin=================
-app.use('/admin',isLoggedIn, indexadmin);
-app.use('/qlhs', isLoggedIn ,QLHocSinh);
-app.use('/qllh', QLLopHoc);
-app.use('/qltk', QLTaiKhoan);
+app.use('/admin', isLoggedIn, indexadmin);
+app.use('/qlhs', isLoggedIn, QLHocSinh);
+app.use('/qllh', isLoggedIn, QLLopHoc);
+app.use('/qltk', isLoggedIn, QLTaiKhoan);
+app.use('/qlmh', isLoggedIn, QLMonHoc);
+app.use('/qlhk', isLoggedIn, QLHocKy);
 //==================!admin=================
 function isLoggedIn(req, res, next) {
   // console.log(req.isAuthenticated());
   // console.log(req.user);
   if (req.isAuthenticated())
-      return next();
+    return next();
   res.redirect('/login');
 }
 

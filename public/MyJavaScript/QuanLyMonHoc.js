@@ -3,7 +3,7 @@ var table = $('#tblresult').DataTable({
     "serverSide": true,
     "ajax": {
         "cache": "false",
-        "url": "/qllh",
+        "url": "/qlmh",
         "type": "POST",
         "dataType": "json",
         // 'beforeSend': function (request) {
@@ -42,8 +42,9 @@ var table = $('#tblresult').DataTable({
     columns: [
         { "data": null },
         { "data": '_id' },
-        { "data": 'tenLop' },
-        { "data": 'viTri' },
+        { "data": 'tenMonHoc' },
+        { "data": 'tenHocKy' },
+        { "data": 'HocKy_idHocKy' },
         { "data": 'Method' }
     ],
     bAutoWidth: false,
@@ -137,7 +138,7 @@ $("#tblresult").on("click", ".btnDelete", function () {
     var obj = $('#tblresult').DataTable().row($(this).parents('tr')).data();
     $("#r_id").val(obj._id);
     $('#appConfirm h4').html("Xoá lớp học");
-    let q = "Bạn có chắc chắn muốn lớp học <b>" + obj.tenLop + "</b>  có vị trí <b>" + obj.viTri + "</b> không?";
+    let q = "Bạn có chắc chắn muốn lớp học <b>" + obj.tenMonHoc + " " + "</b> không?";
     $("#btnSubmitDetail").html("Xóa")
     $('#appConfirm h5').html(q);
     $("#appConfirm").modal('show');
@@ -148,7 +149,7 @@ $('#frmDelete').submit((e) => {
     $("#btnSubmitConfirm").attr("disabled", true);
     var id = $('#r_id').val();
     $.ajax({
-        url: "/qllh/"+id+"/remove",
+        url: "/qlmh/"+id+"/remove",
         method: "delete",
     })
         .done((data) => {

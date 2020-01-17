@@ -13,7 +13,7 @@ function update(req,res) {
 
 }
 function remove(req,res) {  
-
+    
 }
 module.exports = {
     selectAll : selectAll,

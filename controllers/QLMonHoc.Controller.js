@@ -1,13 +1,13 @@
-var LopModel = require('../models/Lop');
+var MonHocModel = require('../models/MonHoc');
 
 async function selectAll(req, res) {
     var start = req.body.start == null ? 0 : req.body.start;
     var length = req.body.length == null ? 5 : req.body.length;
-    var total = await LopModel.count((err, result) => {
+    var total = await MonHocModel.count((err, result) => {
         return result;
     })
     try {
-        LopModel.find({}, (err, result) => {
+        MonHocModel.find({}, (err, result) => {
             if (err)
                 res.json({ err: 1, msg: err });
             res.json({ "recordsTotal": result.length, "recordsFiltered": total, "data": result, "draw": req.body.draw });
@@ -17,34 +17,34 @@ async function selectAll(req, res) {
         res.json({ err: 1, msg: err });
     }
 }
-
-async function create(req, res) {
-    let Lop = new LopModel({
-        tenLop: req.body.tenLop,
-        viTri: req.body.viTri
+function create(req, res) {
+    console.log(req.body);
+    
+    let MonHoc = new MonHocModel({
+        tenMonHoc: req.body.tenMonHoc,
+        HocKy_idHocKy: req.body.HocKy_idHocKy
     });
-    Lop.save((err) => {
+    MonHoc.save((err) => {
         if (err)
             res.json({ err: 1, msg: err });
-        res.json({ err: 0, msg: 'Lop create successfully' });
+        res.json({ err: 0, msg: 'MonHoc create successfully' });
     })
 }
 
 async function update(req, res) {
     console.log(req.body);
-    
-    LopModel.findByIdAndUpdate(req.params.id, { $set: req.body }, function (err, product) {
+    MonHocModel.findByIdAndUpdate(req.params.id, { $set: req.body }, function (err, product) {
         if (err)
             res.json({ err: 1, msg: err });
-        res.json({ err: 0, msg: 'Lop update successfully' });
+        res.json({ err: 0, msg: 'MonHoc update successfully' });
     });
 }
 
 function remove(req, res) {
-    LopModel.findByIdAndRemove(req.params.id, function (err) {
+    MonHocModel.findByIdAndRemove(req.params.id, function (err) {
         if (err)
             res.json({ err: 1, msg: err });
-        res.json({ err: 0, msg: 'Lop remove successfully' });
+        res.json({ err: 0, msg: 'MonHoc remove successfully' });
     })
 }
 

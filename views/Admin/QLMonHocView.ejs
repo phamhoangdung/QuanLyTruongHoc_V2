@@ -34,6 +34,14 @@
                     <div class="card">
                         <div class="card-header">
                             <h4>Danh sách lớp học</h4>
+                            <div class="col-2">
+                                <select name="subjectname" id="subjectname" class="form-control">
+                                    <option value="1" selected="selected">--Chọn học kỳ--</option>
+                                    <% hocky.map((element,index)=>{ %>
+                                    <option value="<%= element._id %>"><%= element.tenHocKy%></option>
+                                    <% }) %>
+                                </select>
+                            </div>
                         </div>
                         <div class="card-body">
                             <table id="tblresult" class="table table-bordered table-striped">
@@ -41,8 +49,9 @@
                                     <tr>
                                         <th>STT</th>
                                         <th>_id</th>
-                                        <th>Tên Lớp</th>
-                                        <th>Vị trí</th>
+                                        <th>Môn học</th>
+                                        <th>Học kỳ</th>
+                                        <th>HocKy_idHocKy</th>
                                         <th>Thao Tác</th>
                                     </tr>
                                 </thead>
@@ -118,19 +127,22 @@
                         <div class="card-body">
                             <div class="row form-group">
                                 <div class="col-md-6">
-                                    <label for="tenLop">Tên Lớp</label>
-                                    <input type="text" class="form-control" id="tenLop" name="tenLop"
-                                        placeholder="Tên Lớp...">
+                                    <label for="viTri">Vị trí</label>
+                                    <input type="text" class="form-control" id="c_tenMonHoc" name="tenMonHoc"
+                                        placeholder="Vị trí...">
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="viTri">Vị trí</label>
-                                    <input type="text" class="form-control" id="viTri" name="viTri"
-                                        placeholder="Vị trí...">
+                                    <label for="c_HocKy_idHocKy">Học kỳ</label>
+                                    <select name="HocKy_idHocKy" id="c_HocKy_idHocKy" class="form-control">
+                                        <option value="1" selected="selected">--Chọn học kỳ--</option>
+                                        <% hocky.map((element,index)=>{ %>
+                                        <option value="<%= element._id %>"><%= element.tenHocKy%></option>
+                                        <% }) %>
+                                    </select>
                                 </div>
                             </div>
                         </div>
                     </form>
-
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
@@ -161,14 +173,18 @@
                         <div class="card-body">
                             <div class="row form-group">
                                 <div class="col-md-6">
-                                    <label for="tenLop">Tên Lớp</label>
-                                    <input type="text" class="form-control" id="u_tenLop" name="tenLop"
-                                        placeholder="Tên Lớp...">
+                                    <label for="viTri">Vị trí</label>
+                                    <input type="text" class="form-control" id="u_tenMonHoc" name="tenMonHoc"
+                                        placeholder="Vị trí...">
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="viTri">Vị trí</label>
-                                    <input type="text" class="form-control" id="u_viTri" name="viTri"
-                                        placeholder="Vị trí...">
+                                    <label for="c_HocKy_idHocKy">Học kỳ</label>
+                                    <select name="HocKy_idHocKy" id="u_HocKy_idHocKy" class="form-control">
+                                        <option value="1" selected="selected">--Chọn học kỳ--</option>
+                                        <% hocky.map((element,index)=>{ %>
+                                        <option value="<%= element._id %>"><%= element.tenHocKy%></option>
+                                        <% }) %>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -187,7 +203,7 @@
 
     <!-- jQuery -->
     <% include layout/_defaultScript %>
-    <script src="MyJavaScript/QuanLyLopHoc.js"></script>
+    <script src="MyJavaScript/QuanLyMonHoc.js"></script>
 
 </body>
 
