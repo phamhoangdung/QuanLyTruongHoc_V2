@@ -26,11 +26,11 @@ module.exports.isValidPassword = function (user, password) {
 module.exports.encrypt = function (password) {
     return new Promise((resolve, reject) => {
         bcrypt.genSalt(10, function (err, salt) {
-            if(err)
-            reject (err);
-            bcrypt.hash(password, salt, async function (err, hash) {
-                if(err)
+            if (err)
                 reject(err);
+            bcrypt.hash(password, salt, async function (err, hash) {
+                if (err)
+                    reject(err);
                 resolve(hash);
             });
         });

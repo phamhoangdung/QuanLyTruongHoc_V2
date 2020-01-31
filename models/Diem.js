@@ -3,6 +3,7 @@ const schemaOptions = {
     collection: 'Diem', timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
 };
 var Diem = new mongoose.Schema({
+    // _id: mongoose.Schema.Types.ObjectId,
     tenLop: String,
     viTri: String,
 },schemaOptions)

@@ -54,7 +54,7 @@ var table = $('#tblresult').DataTable({
     },
 });
 
-
+// insert
 
 $("#btnAdd").click(function () {
     $('#IDp').val(-1);
@@ -76,7 +76,7 @@ $('#frmPost').submit((e) => {
     e.preventDefault();
     let form = $('#frmPost').serializeArray();
     $.ajax({
-        url: "/qllh/create",
+        url: "/qlmh/create",
         method: "POST",
         data: form,
         dataType: 'json'
@@ -85,7 +85,7 @@ $('#frmPost').submit((e) => {
             if (data.err === 0) {
                 $('#tblresult').DataTable().ajax.reload();
                 $("#editmodal").modal('hide');
-                toastr["success"]("Thêm m bản ghi thành công! ");
+                toastr["success"]("Thêm bản ghi thành công! ");
             }
             else {
                 toastr["error"]("Xảy ra lỗi, " + data.msg);
@@ -106,6 +106,7 @@ $("#tblresult").on("click", ".btnEdit", function () {
     $("#updatemodal").modal('show');
 });
 
+// update
 $('#frmPut').submit((e) => {
     var id = $('#u_id').val();
     e.preventDefault();

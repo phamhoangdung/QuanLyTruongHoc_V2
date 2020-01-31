@@ -4,7 +4,7 @@ const schemaOptions = {
 };
 var MonHoc = mongoose.Schema({
     tenMonHoc: String,
-    HocKy_idHocKy: mongoose.Schema.Types.ObjectId
-},schemaOptions)
+    HocKy_idHocKy: { type: mongoose.Schema.Types.ObjectId, ref: 'HocKy' }
+}, schemaOptions)
 
 module.exports = mongoose.model("MonHoc", MonHoc);

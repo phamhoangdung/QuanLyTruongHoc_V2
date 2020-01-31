@@ -6,6 +6,6 @@ var TrinhDo = mongoose.Schema({
     tenTrinhDo: String,
     create_at: { type: Date, default: Date.now },
     update_at: { type: Date, default: Date.now },
-},schemaOptions);
+}, schemaOptions);
 
 module.exports = mongoose.model("TrinhDo", TrinhDo);
