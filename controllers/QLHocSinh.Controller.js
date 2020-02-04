@@ -1,14 +1,15 @@
 var HocSinhModel = require('../models/HocSinh');
 
-function SelectAll(req, res) {
+async function SelectAll(req, res) {
     var start = req.body.start == null ? 0 : req.body.start;
     var length = req.body.length == null ? 5 : req.body.length;
     try {
-        HocSinhModel.find({}, (err, result) => {
-            if (err)
-                throw (err);
-            res.json(result);
-        }).skip(parseInt(start)).limit(parseInt(length));
+        var dataresult = await HocSinhModel.find()
+            .skip(parseInt(start))
+            .limit(parseInt(length))
+            .populate('Lop_idLop', ['_id', 'tenLop', 'viTri'])
+            .exec();
+        res.json(dataresult);
     }
     catch (err) {
         throw (err);
@@ -22,19 +23,21 @@ function SelectByID(req, res) {
     })
 }
 
-function Insert(req, res) {
+function Create(req, res) {
     let HocSinh = new HocSinhModel({
-        tenHocSinh: req.body.tenHocSinh,
-        queQuan: req.body.queQuan,
-        gioiTinh: req.body.gioiTinh,
+        tenHS: req.body.tenHS == null ? 'Không xác định' : req.body.tenHS,
+        hoHS: req.body.hoHS == null ? 'không xác định' : req.body.hoHS,
+        ngaySinhHS: req.body.ngaySinhHS == null ? Date.now : req.body.ngaySinhHS,
+        diaChiHS: req.body.diaChiHS == null ? 'không xác định' : req.body.diaChiHS,
+        gioiTinhHS: parseInt(req.body.gioiTinhHS == null ? 0 : req.body.gioiTinhHS),
         Lop_idLop: req.body.Lop_idLop,
-        TaiKhoan_idTaiKhoan: req.body.TaiKhoan_idTaiKhoan,
+        // TaiKhoan_idTaiKhoan: req.body.TaiKhoan_idTaiKhoan,
     });
     HocSinh.save((err) => {
         if (err) {
-            throw (err);
+            res.json({ err: 0, msg: err });
         }
-        res.json('HocSinh insert successfully');
+        res.json({ err: 0, msg: 'HocSinh insert successfully' });
     })
 }
 
@@ -48,7 +51,7 @@ function Update(req, res) {
     });
 }
 
-function Delete(req, res) {
+function Remove(req, res) {
     HocSinhModel.findByIdAndRemove(req.params.id, function (err) {
         if (err) return next(err);
         res.send('Deleted successfully!');
@@ -58,7 +61,7 @@ function Delete(req, res) {
 module.exports = {
     SelectByID: SelectByID,
     SelectAll: SelectAll,
-    Insert: Insert,
+    Create: Create,
     Update: Update,
-    Delete: Delete,
+    Remove: Remove,
 }

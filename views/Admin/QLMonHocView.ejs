@@ -50,8 +50,9 @@
                                         <th>STT</th>
                                         <th>_id</th>
                                         <th>Môn học</th>
-                                        <th>Học kỳ</th>
+                                        <th>Số tiết</th>
                                         <th>HocKy_idHocKy</th>
+                                        <th>Học kỳ</th>
                                         <th>Thao Tác</th>
                                     </tr>
                                 </thead>
@@ -127,14 +128,19 @@
                         <div class="card-body">
                             <div class="row form-group">
                                 <div class="col-md-6">
-                                    <label for="viTri">Vị trí</label>
+                                    <label for="viTri">Tên môn học</label>
                                     <input type="text" class="form-control" id="c_tenMonHoc" name="tenMonHoc"
-                                        placeholder="Vị trí...">
+                                        placeholder="Tên môn học...">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="viTri">Số tiết</label>
+                                    <input type="number" class="form-control" id="c_soTiet" name="soTiet"
+                                        placeholder="Số tiết...">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="c_HocKy_idHocKy">Học kỳ</label>
                                     <select name="HocKy_idHocKy" id="c_HocKy_idHocKy" class="form-control">
-                                        <option value="1" selected="selected">--Chọn học kỳ--</option>
+                                        <option value="0" selected="selected">--Chọn học kỳ--</option>
                                         <% hocky.map((element,index)=>{ %>
                                         <option value="<%= element._id %>"><%= element.tenHocKy%></option>
                                         <% }) %>
@@ -173,9 +179,14 @@
                         <div class="card-body">
                             <div class="row form-group">
                                 <div class="col-md-6">
-                                    <label for="viTri">Vị trí</label>
+                                    <label for="viTri">Tên môn học</label>
                                     <input type="text" class="form-control" id="u_tenMonHoc" name="tenMonHoc"
-                                        placeholder="Vị trí...">
+                                        placeholder="Tên môn học...">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="viTri">Số tiết</label>
+                                    <input type="number" class="form-control" id="u_soTiet" name="soTiet"
+                                        placeholder="Số tiết...">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="c_HocKy_idHocKy">Học kỳ</label>

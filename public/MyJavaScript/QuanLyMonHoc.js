@@ -20,12 +20,12 @@ var table = $('#tblresult').DataTable({
     },
     "PaginationType": "bootstrap",
     "columnDefs": [
-        { "visible": false, "targets": 1},
+        { "visible": false, "targets": [1,5]},
         {
             "className": "text-center",
             "width": "50px",
             "orderable": false,
-            "targets": 0
+            "targets": [0,6]
         },
     ],
     "language": {
@@ -43,8 +43,9 @@ var table = $('#tblresult').DataTable({
         { "data": null },
         { "data": '_id' },
         { "data": 'tenMonHoc' },
-        { "data": 'tenHocKy' },
-        { "data": 'HocKy_idHocKy' },
+        { "data": 'soTiet' },
+        { "data": 'HocKy_idHocKy.tenHocKy' },
+        { "data": 'HocKy_idHocKy._id' },
         { "data": 'Method' }
     ],
     bAutoWidth: false,
@@ -57,17 +58,9 @@ var table = $('#tblresult').DataTable({
 // insert
 
 $("#btnAdd").click(function () {
-    $('#IDp').val(-1);
-    $('#FirstName').val(null);
-    $('#LastName').val(null);
-    $('#Birthday').val(null);
-    $('#Address').val(null);
-    $('#ID_Class').val(1);
-    $('#ID_subject').val(1);
-    $('#HS1').val(null);
-    $('#HS2').val(null);
-    $('#HS3').val(null);
-    $('#Status').val(0);
+    $('#c_tenMonHoc').val(null);
+    $('#c_soTiet').val(null);
+    $('#c_HocKy_idHocKy').val(0);
     $("#editmodal").modal('show');
 });
 
@@ -100,9 +93,9 @@ $('#frmPost').submit((e) => {
 
 $("#tblresult").on("click", ".btnEdit", function () {
     var obj = $('#tblresult').DataTable().row($(this).parents('tr')).data();
-    $('#u_id').val(obj._id);
-    $('#u_tenLop').val(obj.tenLop);
-    $('#u_viTri').val(obj.viTri);
+    $('#u_tenMonHoc').val(obj.tenMonHoc);
+    $('#u_soTiet').val(obj.soTiet);
+    $('#u_HocKy_idHocKy').val(obj.HocKy_idHocKy._id);
     $("#updatemodal").modal('show');
 });
 

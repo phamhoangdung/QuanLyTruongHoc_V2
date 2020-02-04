@@ -1,40 +1,23 @@
 var MonHocModel = require('../models/MonHoc');
 var HocKy = require('../models/HocKy');
+
 async function selectAll(req, res) {
     var start = req.body.start == null ? 0 : req.body.start;
     var length = req.body.length == null ? 5 : req.body.length;
     var total = await MonHocModel.count((err, result) => {
         return result;
-    })
+    });
+
     try {
-        // MonHocModel.find({}, (err, result) => {
-        //     if (err)
-        //         res.json({ err: 1, msg: err });
-        //     res.json({ "recordsTotal": result.length, "recordsFiltered": total, "data": result, "draw": req.body.draw });
-        // }).populate({path : 'HocKy'}).skip(parseInt(start)).limit(parseInt(length));
+       
+        var data = await MonHocModel.find({})
+        .skip(parseInt(start))
+        .limit(parseInt(length))
+        .populate('HocKy_idHocKy','tenHocKy')
+        .exec();
 
-        // var hk = HocKy.findOne({tenHocKy: "Học Kỳ 1"});
-        // console.log((await hk)._id);
-        
-        // var mhs = new MonHocModel({
-        //     tenMonHoc: "Toán 11",
-        //     HocKy_idHocKy: (await hk)._id
-        // });
-        // mhs.save();
-
-        var mh =  MonHocModel.find({})
-        .populate('HocKy')
-        .exec((err, result)=>{
-            console.log(result);
-            return result;
-        })
-        // .populate('HocKy')
-        // .exec(function (err, result) {
-        //     if (err) return handleError(err);
-        //     console.log(result._id);
-        //     return result;
-        // });
-        res.json(await mh);
+        //res json for datatable
+        res.json({ "recordsTotal": data.length, "recordsFiltered": total, "data": data, "draw": req.body.draw });
     }
     catch (err) {
 
@@ -43,9 +26,9 @@ async function selectAll(req, res) {
 }
 function create(req, res) {
     console.log(req.body);
-
     let MonHoc = new MonHocModel({
         tenMonHoc: req.body.tenMonHoc,
+        soTiet: req.body.soTiet == null ? 0 : req.body.soTiet,
         HocKy_idHocKy: req.body.HocKy_idHocKy
     });
     MonHoc.save((err) => {

@@ -175,9 +175,9 @@ $('#frmPost').submit((e) => {
 
 $("#tblresult").on("click", ".btnDelete", function () {
     var obj = $('#tblresult').DataTable().row($(this).parents('tr')).data();
-    $("input[name='ID']").val(obj.ID);
+    $("input[name='ID']").val(obj._id);
     $('#appConfirm h4').html("Xóa bài viết");
-    let q = "Bạn có chắc chắn muốn bài viết <b>" + obj.FirstName + " " + obj.LastName + "</b> không?";
+    let q = "Bạn có chắc chắn muốn bài viết <b>" + obj.tenHocSinh + "</b> không?";
     $("#btnSubmitDetail").html("Xóa")
     $('#appConfirm h5').html(q);
     $("#appConfirm").modal('show');
@@ -189,10 +189,8 @@ $('#frmDelete').submit((e) => {
     let form = $('#frmDelete').serializeArray();
     var id = $('#ID').val();
     $.ajax({
-        url: "/student/del",
-        method: "POST",
-        data: form,
-        dataType: 'json'
+        url: "/qlhs/"+id+"/remove",
+        method: "DELETE",
     })
         .done((data) => {
             if (data.err === 0) {

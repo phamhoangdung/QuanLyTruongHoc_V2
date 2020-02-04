@@ -4,6 +4,8 @@ const schemaOptions = {
 };
 var MonHoc = mongoose.Schema({
     tenMonHoc: String,
+    soTiet: Number,
+    viTri: String,
     HocKy_idHocKy: { type: mongoose.Schema.Types.ObjectId, ref: 'HocKy' }
 }, schemaOptions)
 
