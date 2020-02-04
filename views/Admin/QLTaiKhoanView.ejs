@@ -49,7 +49,6 @@
                                         <th>Tạo lúc</th>
                                         <th>Cập nhập lúc</th>
                                         <th>Thao tác</th>
-                                        <th>__ver</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -106,49 +105,88 @@
         </div>
     </div>
 
-    <!-- The Modal edit -->
-    <div class="modal fade" id="editmodal">
+    <!-- The Modal create -->
+    <div class="modal fade" id="creatmodal">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
 
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Quản lý Tài Khoản</h4>
+                    <h4 class="modal-title">Thêm mới Tài Khoản</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
                     <form role="form" id="frmPost" method="post">
-                        <input type="hidden" class="form-control" id="IDp" name="IDp">
                         <div class="card-body">
-                            <div class="row form-group">
-                               
-                            </div>
                             <div class="row form-group">
                                 <div class="col-sm-6">
                                     <label for="username">username</label>
-                                    <input type='text' id='username' name="username" class="form-control" placeholder="username"/>
+                                    <input type='text' id='c_username' name="username" class="form-control"
+                                        placeholder="username" />
                                 </div>
                                 <div class="col-sm-6">
                                     <label for="password">password</label>
-                                    <input type='text' id='password' name="password" class="form-control" placeholder="password"/>
+                                    <input type='password' id='c_password' name="password" class="form-control"
+                                        placeholder="password" />
                                 </div>
                             </div>
-                            
+
                         </div>
                     </form>
 
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success" form="frmPost" id="btnSubmitDetail">Submit</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success" form="frmPost" id="btnSubmitDetail">Thêm</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
                 </div>
 
             </div>
         </div>
     </div>
 
+    <!-- The Modal update -->
+    <div class="modal fade" id="updatemodal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Sửa Tài Khoản</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form role="form" id="frmPut" method="put">
+                        <input type="hidden" class="form-control" id="IDu" name="IDu">
+                        <div class="card-body">
+                            <div class="row form-group">
+                                <div class="col-sm-6">
+                                    <label for="username">username</label>
+                                    <input type='text' id='u_username' name="username" class="form-control"
+                                        placeholder="username" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="password">password</label>
+                                    <input type='password' id='u_password' name="password" class="form-control"
+                                        placeholder="password" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" form="frmPost" id="btnSubmitDetail">Cập nhật</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
     <!-- jQuery -->
     <% include layout/_defaultScript %>
     <script src="MyJavaScript/QuanLyTaiKhoan.js"></script>

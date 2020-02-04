@@ -23,7 +23,7 @@ $('#tblresult').DataTable({
             "className": "text-center",
             "width": "50px",
             "orderable": false,
-            "targets": [0,6,9]
+            "targets": [0,7]
         },
     ],
     "language": {
@@ -46,8 +46,6 @@ $('#tblresult').DataTable({
         { "data": 'created_at' },
         { "data": 'updated_at' },
         { "data": 'Method' },
-        { "data": '__v' },
-
     ],
     bAutoWidth: false,
     fnRowCallback: (nRow, aData, iDisplayIndex) => {
@@ -57,34 +55,23 @@ $('#tblresult').DataTable({
 });
 
 $("#btnAdd").click(function () {
-    $('#IDp').val(-1);
-    $('#username').val(null);
-    $('#password').val(null);
-    $('#FirstName').val(null);
-    $('#LastName').val(null);
-    $('#Status').val(0);
-    $('#ID_User_type').val(null);
-    $("#editmodal").modal('show');
+    $('#c_username').val(null);
+    $('#c_password').val(null);
+    $("#creatmodal").modal('show');
 });
 
 $("#tblresult").on("click", ".btnEdit", function () {
     var obj = $('#tblresult').DataTable().row($(this).parents('tr')).data();
-    $('#username').val(obj.Username);
-    $('#password').val(obj.password);
-    $('#FirstName').val(obj.FirstName);
-    $('#LastName').val(obj.LastName);
-    $('#Status').val(obj.password);
-    $('#IDp').val(obj.ID);
-    $('#ID_User_type').val(obj.ID_User_type);
-    $('#Status').val(obj.Status);
-    $("#editmodal").modal('show');
+    $('#u_username').val(obj.username);
+    $('#u_password').val(obj.password);
+    $("#updatemodal").modal('show');
 });
-
+//form create new item
 $('#frmPost').submit((e) => {
     e.preventDefault();
     let form = $('#frmPost').serializeArray();
     $.ajax({
-        url: "/users/edit",
+        url: "/qltk/create",
         method: "POST",
         data: form,
         dataType: 'json'
@@ -106,6 +93,35 @@ $('#frmPost').submit((e) => {
     $("#btnSubmitConfirm").removeAttr("disabled");
 });
 
+//form update an item
+$('#frmPut').submit((e) => {
+    e.preventDefault();
+    let form = $('#frmPut').serializeArray();
+    var id = $('#IDu').val();
+    $.ajax({
+        url: "/qltk/"+id+"/update",
+        method: "POST",
+        data: form,
+        dataType: 'json'
+    })
+    .done((data) => {
+        if (data.err === 0) {
+            $('#tblresult').DataTable().ajax.reload();
+            $("#editmodal").modal('hide');
+            toastr["success"]("Cập nhật bản ghi thành công! ");
+        }
+        else {
+            toastr["error"]("Xảy ra lỗi, "+data.msg);
+        }
+    })
+    .fail(() => {
+        $("#editmodal").modal('hide');
+        toastr["error"]("Xảy ra lỗi, vui lòng tải lại trang!");
+    });
+    $("#btnSubmitConfirm").removeAttr("disabled");
+});
+
+//from delete an item
 $("#tblresult").on("click", ".btnDelete", function () {
     var obj = $('#tblresult').DataTable().row($(this).parents('tr')).data();
     $("input[name='ID']").val(obj._id);
@@ -119,13 +135,10 @@ $("#tblresult").on("click", ".btnDelete", function () {
 $('#frmDelete').submit((e) => {
     e.preventDefault();
     $("#btnSubmitConfirm").attr("disabled", true);
-    let form = $('#frmDelete').serializeArray();
     var id = $('#ID').val();
     $.ajax({
         url: "/qltk/"+ id +"/delete",
         method: "DELETE",
-        data: form,
-        dataType: 'json'
     })
         .done((data) => {
             if (data.err === 0) {

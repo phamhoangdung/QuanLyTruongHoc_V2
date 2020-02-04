@@ -9,8 +9,8 @@ router.route('/')
 
 router.put('/:id/update', HocSinhController.Update);
 
-router.delete('/:id/remove', HocSinhCotroller.Remove);
+router.delete('/:id/remove', HocSinhController.Remove);
 
-router.post('/create', HocSinhCotroller.Create);
+router.post('/create', HocSinhController.Create);
 
 module.exports = router;

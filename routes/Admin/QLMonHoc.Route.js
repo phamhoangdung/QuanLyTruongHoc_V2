@@ -7,8 +7,6 @@ router.route('/')
         var hocky = await HocKy.find({}, (err, resutl) => {
             return resutl;
         })
-        console.log("-----"+hocky);
-        
         res.render('Admin/QLMonHocView', { user: req.user, hocky: hocky });
     })
     .post(MonHoc.selectAll);
