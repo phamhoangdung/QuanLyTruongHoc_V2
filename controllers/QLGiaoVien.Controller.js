@@ -6,7 +6,8 @@ async function selectAll(req, res) {
     try {
        var dataResult = await GiaoVienModel.find()
         .skip(parseInt(start))
-        .limit(parseInt(length));
+        .limit(parseInt(length))
+        .populate(Lop.tenLop, MonHoc.tenMonHoc);
         res.json(dataResult);
     }
     catch (err) {

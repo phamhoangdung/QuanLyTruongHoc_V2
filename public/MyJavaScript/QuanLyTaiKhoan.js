@@ -23,7 +23,7 @@ $('#tblresult').DataTable({
             "className": "text-center",
             "width": "50px",
             "orderable": false,
-            "targets": [0,6,9]
+            "targets": [0,7]
         },
     ],
     "language": {
@@ -46,8 +46,6 @@ $('#tblresult').DataTable({
         { "data": 'created_at' },
         { "data": 'updated_at' },
         { "data": 'Method' },
-        { "data": '__v' },
-
     ],
     bAutoWidth: false,
     fnRowCallback: (nRow, aData, iDisplayIndex) => {
