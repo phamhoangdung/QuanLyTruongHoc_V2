@@ -18,6 +18,8 @@ var QLLopHoc = require('./routes/Admin/QLLopHoc.Route');
 var QLTaiKhoan = require('./routes/Admin/QLTaiKhoan.Route');
 var QLMonHoc = require('./routes/Admin/QLMonHoc.Route');
 var QLHocKy = require('./routes/Admin/QLHocKy.Route');
+var QLGiaoVien = require('./routes/Admin/QLGiaoVien.Route');
+var QLGiaoVienDayLop = require('./routes/Admin/QLGiaoVienDayLop.Route');
 //===================admin=================
 
 
@@ -92,6 +94,8 @@ app.use('/qllh', isLoggedIn, QLLopHoc);
 app.use('/qltk', isLoggedIn, QLTaiKhoan);
 app.use('/qlmh', isLoggedIn, QLMonHoc);
 app.use('/qlhk', isLoggedIn, QLHocKy);
+app.use('/qlgv', isLoggedIn, QLGiaoVien);
+app.use('/qlgvdl', isLoggedIn, QLGiaoVienDayLop);
 //==================!admin=================
 function isLoggedIn(req, res, next) {
   // console.log(req.isAuthenticated());

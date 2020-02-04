@@ -1,13 +1,14 @@
-$('#tblresult').DataTable({
+var table = $('#tblresult').DataTable({
     "processing": true,
     "serverSide": true,
     "ajax": {
         "cache": "false",
-        "url": "/qltk",
+        "url": "/qlgvdl",
         "type": "POST",
-        'beforeSend': function (request) {
-            request.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
-        },
+        "dataType": "json",
+        // 'beforeSend': function (request) {
+        //     request.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
+        // },
         //"cache":false,
         "dataSrc": function (json) {
             json.data.forEach(element => {
@@ -19,11 +20,12 @@ $('#tblresult').DataTable({
     },
     "PaginationType": "bootstrap",
     "columnDefs": [
+        { "visible": false, "targets": 1},
         {
             "className": "text-center",
             "width": "50px",
             "orderable": false,
-            "targets": [0,6,9]
+            "targets": 0
         },
     ],
     "language": {
@@ -40,77 +42,110 @@ $('#tblresult').DataTable({
     columns: [
         { "data": null },
         { "data": '_id' },
-        { "data": 'username' },
-        { "data": 'password' },
-        { "data": 'role' },
+        { "data": 'tenGiaoVien' },
+        { "data": 'lop_idLop' },
+        { "data": 'giaoVien_idGiaoVien' },
         { "data": 'created_at' },
         { "data": 'updated_at' },
-        { "data": 'Method' },
-        { "data": '__v' },
-
+        { "data": 'Method' }
     ],
     bAutoWidth: false,
     fnRowCallback: (nRow, aData, iDisplayIndex) => {
         $("td:first", nRow).html(iDisplayIndex + 1);
         return nRow;
-    }
+    },
 });
+
+// insert
 
 $("#btnAdd").click(function () {
     $('#IDp').val(-1);
-    $('#username').val(null);
-    $('#password').val(null);
+    $('#tenGiaoVien').val(null);
+    $('#lop_idLop').val(null);
+    $('#giaoVien_idGiaoVien').val(null);
     $('#FirstName').val(null);
     $('#LastName').val(null);
+    // $('#ID_Class').val(1);
+    // $('#ID_subject').val(1);
     $('#Status').val(0);
-    $('#ID_User_type').val(null);
     $("#editmodal").modal('show');
 });
 
 $("#tblresult").on("click", ".btnEdit", function () {
     var obj = $('#tblresult').DataTable().row($(this).parents('tr')).data();
-    $('#username').val(obj.Username);
-    $('#password').val(obj.password);
+    $('#u_id').val(obj._id);
+    $('#u_tenGiaoVien').val(obj.tenGiaoVien);
+    $('#u_lop_idLop').val(obj.lop_idLop);
+    $('#u_giaoVien_idGiaoVien').val(obj.giaoVien_idGiaoVien);
     $('#FirstName').val(obj.FirstName);
     $('#LastName').val(obj.LastName);
-    $('#Status').val(obj.password);
-    $('#IDp').val(obj.ID);
-    $('#ID_User_type').val(obj.ID_User_type);
     $('#Status').val(obj.Status);
-    $("#editmodal").modal('show');
+    $('#IDp').val(obj.ID);
+    $("#updatemodal").modal('show');
 });
 
 $('#frmPost').submit((e) => {
     e.preventDefault();
     let form = $('#frmPost').serializeArray();
     $.ajax({
-        url: "/users/edit",
+        url: "/qlgvdl/create",
         method: "POST",
         data: form,
         dataType: 'json'
     })
-    .done((data) => {
-        if (data.err === 0) {
-            $('#tblresult').DataTable().ajax.reload();
+        .done((data) => {
+            if (data.err === 0) {
+                $('#tblresult').DataTable().ajax.reload();
+                $("#editmodal").modal('hide');
+                toastr["success"]("Thêm bản ghi thành công! ");
+            }
+            else {
+                toastr["error"]("Xảy ra lỗi, " + data.msg);
+            }
+        })
+        .fail(() => {
             $("#editmodal").modal('hide');
-            toastr["success"]("Cập nhật bản ghi thành công! ");
-        }
-        else {
-            toastr["error"]("Xảy ra lỗi, "+data.msg);
-        }
-    })
-    .fail(() => {
-        $("#editmodal").modal('hide');
-        toastr["error"]("Xảy ra lỗi, vui lòng tải lại trang!");
-    });
+            toastr["error"]("Xảy ra lỗi, vui lòng tải lại trang!");
+        });
     $("#btnSubmitConfirm").removeAttr("disabled");
 });
 
+
+
+// update
+$('#frmPut').submit((e) => {
+    var id = $('#u_id').val();
+    e.preventDefault();
+    let form = $('#frmPut').serializeArray();
+    $.ajax({
+        url: "/qlgvdl/"+id+"/update",
+        method: "PUT",
+        data: form,
+        dataType: 'json'
+    })
+        .done((data) => {
+            if (data.err === 0) {
+                $('#tblresult').DataTable().ajax.reload();
+                $("#updatemodal").modal('hide');
+                toastr["success"]("Thêm m bản ghi thành công! ");
+            }
+            else {
+                toastr["error"]("Xảy ra lỗi, " + data.msg);
+            }
+        })
+        .fail(() => {
+            $("#updatemodal").modal('hide');
+            toastr["error"]("Xảy ra lỗi, vui lòng tải lại trang!");
+        });
+    $("#btnSubmitConfirm").removeAttr("disabled");
+});
+
+//---- remove 
 $("#tblresult").on("click", ".btnDelete", function () {
     var obj = $('#tblresult').DataTable().row($(this).parents('tr')).data();
-    $("input[name='ID']").val(obj._id);
-    $('#appConfirm h4').html("Xóa tài khoản");
-    let q = "Bạn có chắc chắn muốn tài khoản <b>" + obj.username + "</b> không?";
+    $("#r_id").val(obj._id);
+    $('#appConfirm h4').html("Xoá Giáo Viên");
+    let q = "Bạn có chắc chắn muốn xóa giáo viên <b>" + obj.tenGiaoVien + " " + "</b> dạy lớp <b>" + obj.lop_idLop + "" + " không?";
     $("#btnSubmitDetail").html("Xóa")
     $('#appConfirm h5').html(q);
     $("#appConfirm").modal('show');
@@ -119,11 +154,10 @@ $("#tblresult").on("click", ".btnDelete", function () {
 $('#frmDelete').submit((e) => {
     e.preventDefault();
     $("#btnSubmitConfirm").attr("disabled", true);
-    let form = $('#frmDelete').serializeArray();
-    var id = $('#ID').val();
+    var id = $('#r_id').val();
     $.ajax({
-        url: "/qltk/"+ id +"/delete",
-        method: "DELETE",
+        url: "/qlgvdl/"+id+"/remove",
+        method: "delete",
         data: form,
         dataType: 'json'
     })
@@ -134,7 +168,7 @@ $('#frmDelete').submit((e) => {
                 toastr["success"]("Xóa bản ghi thành công! ");
             }
             else {
-                toastr["error"]("Xảy ra lỗi, "+data.msg);
+                toastr["error"]("Xảy ra lỗi, " + data.msg);
             }
         })
         .fail(() => {
@@ -145,19 +179,19 @@ $('#frmDelete').submit((e) => {
 });
 
 toastr.options = {
-"closeButton": true,
-"debug": false,
-"newestOnTop": false,
-"progressBar": false,
-"positionClass": "toast-bottom-right",
-"preventDuplicates": false,
-"onclick": null,
-"showDuration": "300",
-"hideDuration": "1000",
-"timeOut": "5000",
-"extendedTimeOut": "1000",
-"showEasing": "swing",
-"hideEasing": "linear",
-"showMethod": "fadeIn",
-"hideMethod": "fadeOut"
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-bottom-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
 }
