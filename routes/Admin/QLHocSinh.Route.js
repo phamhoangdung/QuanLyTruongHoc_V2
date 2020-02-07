@@ -1,11 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var HocSinhController = require('../../controllers/QLHocSinh.Controller');
+var Lopmodel = require('../../models/Lop');
 router.route('/')
-.get((req,res,next)=>{
-    res.render('Admin/QLHocSinhView',{user: req.user})
+.get(async(req,res,next)=>{
+    var lop = await Lopmodel.find();
+    res.render('Admin/QLHocSinhView',{user: req.user,Lop:lop})
 })
-.post(HocSinhController.SelectAll);
+.post(HocSinhController.SelectByID);
 
 router.put('/:id/update', HocSinhController.Update);
 

@@ -1,97 +1,32 @@
-
-$('#datetimepicker1').datetimepicker();
-
-$(function () {
-    $('#datetimepicker1').datetimepicker({
-        viewMode: 'years',
-        format: 'MM/YYYY'
-    });
-});
-
-var customdata = {
-    "idclass": 1,
-    "idsubject": 1
-};
-$('#classFiller').on('change', function() {
-    // console.log( $(this).find(":selected").val() );
-    table.clear();
-    // table.ajax.url =  "/qlhs/"+$(this).find(":selected").val();
-    table.ajax.reload();
-});
-
-// $('#subjectname').change(() => {
-//     customdata.idclass = Number($('#classname').val());
-//     customdata.idsubject = Number($('#subjectname').val());
-//     console.log(customdata);
-//     // table.clear();
-//     // table.ajax.data(customdata);
-//     table.ajax.reload();
-// });
-
 var table = $('#tblresult').DataTable({
     "processing": true,
     "serverSide": true,
     "ajax": {
         "cache": "false",
-        "url": "/qlhs/",
+        "url": "/qlgv",
         "type": "POST",
-        "data": {
-            classFiller : function(){return $('#classFiller').find(":selected").val()}
-        },
         "dataType": "json",
         // 'beforeSend': function (request) {
         //     request.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
         // },
         //"cache":false,
         "dataSrc": function (json) {
-            console.log(json);
-            dtUser = json;
-            var index = 0;
             json.data.forEach(element => {
                 element.Method = `<a class=" my-method-button btnEdit fa-hover"    title="Sửa tài khoản" ><i class="fa fa-edit"></i></a> &nbsp
                                 <a class=" my-method-button btnDelete fa-hover"    title="Xóa tài khoản" ><i class="fa fa-trash"></i></a>`;
-                index++;
             });
             return json.data;
         },
     },
     "PaginationType": "bootstrap",
     "columnDefs": [
+        { "visible": false, "targets": 1},
         {
             "className": "text-center",
             "width": "50px",
             "orderable": false,
-            "targets": [0,9]
+            "targets": 0
         },
-        // {
-        //     "render": (data, type, row) => {
-        //         return data == 1 ? '<i class="fa fa-toggle-on" title="Hoạt động" style="color:green"></i>' : '<i class="fa fa-toggle-off" title="Không hoạt động"></i>'
-        //     },
-        //     "orderable": false,
-        //     "targets": 14
-        // },
-         {
-            "render": (data, type, row) => {
-                return data == 1 ? 'Nam' : 'Nữ'
-            },
-            "orderable": false,
-            "targets": 6
-        },
-        {
-            "visible": false,
-            "targets": [1,7]
-        },
-        {
-            "name":"ngaySinhHS",
-            "orderable": false,
-            "type":   'datetime',
-            "def":    function () { return new Date(); },
-            "format": 'dd/MM/YYYY',
-            "fieldInfo": 'Verbose date format',
-            "keyInput": false,
-            "targets": 4
-        },
-
     ],
     "language": {
         "sLengthMenu": "Số bản ghi hiển thị trên 1 trang _MENU_ ",
@@ -107,13 +42,9 @@ var table = $('#tblresult').DataTable({
     columns: [
         { "data": null },
         { "data": '_id' },
-        { "data": 'hoHS' },
-        { "data": 'tenHS' },
-        { "data": 'ngaySinhHS' },
-        { "data": 'diaChiHS' },
-        { "data": 'gioiTinhHS' },
-        { "data": 'Lop_idLop._id' },
-        { "data": 'Lop_idLop.tenLop' },
+        { "data": 'tenGiaoVien' },
+        { "data": 'ngaySinh' },
+        { "data": 'diaChi' },
         { "data": 'Method' }
     ],
     bAutoWidth: false,
@@ -123,27 +54,25 @@ var table = $('#tblresult').DataTable({
     },
 });
 
-
+// insert
 
 $("#btnAdd").click(function () {
-    $('#c_hoHS').val(null);
-    $('#c_tenHS').val(null);
-    $('#c_ngaySinhHS').val(null);
-    $('#c_diaChiHS').val(null);
-    $('#c_gioiTinhHS').val(1);
-    $('#c_Lop_idLop').val(1);
-    $("#createmodal").modal('show');
+    $('#IDp').val(-1);
+    $('#tenGiaoVien').val(null);
+    $('#Birthday').val(null);
+    $('#Address').val(null);
+    $('#Status').val(0);
+    $("#editmodal").modal('show');
 });
 
 $("#tblresult").on("click", ".btnEdit", function () {
     var obj = $('#tblresult').DataTable().row($(this).parents('tr')).data();
-    $('#IDu').val(obj._id);
-    $('#u_hoHS').val(obj.hoHS);
-    $('#u_tenHS').val(obj.tenHS);
-    $('#u_ngaySinhHS').val(obj.ngaySinhHS);
-    $('#u_diaChiHS').val(obj.diaChiHS);
-    $('#u_gioiTinhHS').val(obj.gioiTinhHS);
-    $('#u_Lop_idLop').val(obj.Lop_idLop._id);
+    $('#u_id').val(obj._id);
+    $('#u_tenGiaoVien').val(obj.tenGiaoVien);
+    $('#u_ngaySinh').val(obj.ngaySinh);
+    $('#u_diaChi').val(obj.diaChi);
+    $('#Status').val(obj.Status);
+    $('#IDp').val(obj.ID);
     $("#updatemodal").modal('show');
 });
 
@@ -151,7 +80,7 @@ $('#frmPost').submit((e) => {
     e.preventDefault();
     let form = $('#frmPost').serializeArray();
     $.ajax({
-        url: "/qlhs/create",
+        url: "/qlgv/create",
         method: "POST",
         data: form,
         dataType: 'json'
@@ -159,26 +88,29 @@ $('#frmPost').submit((e) => {
         .done((data) => {
             if (data.err === 0) {
                 $('#tblresult').DataTable().ajax.reload();
-                $("#createmodal").modal('hide');
-                toastr["success"]("Cập nhật bản ghi thành công! ");
+                $("#editmodal").modal('hide');
+                toastr["success"]("Thêm bản ghi thành công! ");
             }
             else {
                 toastr["error"]("Xảy ra lỗi, " + data.msg);
             }
         })
         .fail(() => {
-            $("#createmodal").modal('hide');
+            $("#editmodal").modal('hide');
             toastr["error"]("Xảy ra lỗi, vui lòng tải lại trang!");
         });
     $("#btnSubmitConfirm").removeAttr("disabled");
 });
 
+
+
+// update
 $('#frmPut').submit((e) => {
+    var id = $('#u_id').val();
     e.preventDefault();
     let form = $('#frmPut').serializeArray();
-    var id = $('#IDu').val();
     $.ajax({
-        url: "/qlhs/"+id+"/update",
+        url: "/qlgv/"+id+"/update",
         method: "PUT",
         data: form,
         dataType: 'json'
@@ -187,7 +119,7 @@ $('#frmPut').submit((e) => {
             if (data.err === 0) {
                 $('#tblresult').DataTable().ajax.reload();
                 $("#updatemodal").modal('hide');
-                toastr["success"]("Cập nhật bản ghi thành công! ");
+                toastr["success"]("Thêm m bản ghi thành công! ");
             }
             else {
                 toastr["error"]("Xảy ra lỗi, " + data.msg);
@@ -200,11 +132,12 @@ $('#frmPut').submit((e) => {
     $("#btnSubmitConfirm").removeAttr("disabled");
 });
 
+//---- remove 
 $("#tblresult").on("click", ".btnDelete", function () {
     var obj = $('#tblresult').DataTable().row($(this).parents('tr')).data();
-    $("input[name='ID']").val(obj._id);
-    $('#appConfirm h4').html("Xóa bài viết");
-    let q = "Bạn có chắc chắn muốn bài viết <b>" + obj.tenHocSinh + "</b> không?";
+    $("#r_id").val(obj._id);
+    $('#appConfirm h4').html("Xoá Giáo Viên");
+    let q = "Bạn có chắc chắn muốn xóa giáo viên <b>" + obj.tenGiaoVien + " " + "</b> không?";
     $("#btnSubmitDetail").html("Xóa")
     $('#appConfirm h5').html(q);
     $("#appConfirm").modal('show');
@@ -213,11 +146,10 @@ $("#tblresult").on("click", ".btnDelete", function () {
 $('#frmDelete').submit((e) => {
     e.preventDefault();
     $("#btnSubmitConfirm").attr("disabled", true);
-    let form = $('#frmDelete').serializeArray();
-    var id = $('#ID').val();
+    var id = $('#r_id').val();
     $.ajax({
-        url: "/qlhs/"+id+"/remove",
-        method: "DELETE",
+        url: "/qlgv/"+id+"/remove",
+        method: "delete",
     })
         .done((data) => {
             if (data.err === 0) {

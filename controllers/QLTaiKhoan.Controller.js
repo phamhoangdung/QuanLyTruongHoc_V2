@@ -28,19 +28,26 @@ async function create(req, res) {
         password: await TaiKhoanModel.encrypt(req.body.password),
         role: req.body.role,
     });
+    console.log(req.body.username);
+    
     TaiKhoan.save((err) => {
         if (err)
-        res.json({err:1,msg:err});
+        return res.json({err:1,msg:err});
         res.json({err:0,msg:'Tai khoan create successfully'});
     })
 }
 
 async function update(req, res) {
     if (req.body.password) {
-        req.body.password = await encrypt(req.body.password);
+        req.body.password = await TaiKhoanModel.encrypt(req.body.password);
         console.log(req.body.password);
     }
-    TaiKhoanModel.findByIdAndUpdate(req.params.id, { $set: req.body }, function (err, product) {
+    var update = {
+        username : req.body.username,
+        password : req.body.password,
+        role: req.body.role,
+    }
+    TaiKhoanModel.findByIdAndUpdate(req.params.id,update, function (err, product) {
         if (err)
         res.json({err:1,msg:err});
         res.json({err:0,msg:'Tai khoan update successfully'});

@@ -20,6 +20,7 @@ var QLMonHoc = require('./routes/Admin/QLMonHoc.Route');
 var QLHocKy = require('./routes/Admin/QLHocKy.Route');
 var QLGiaoVien = require('./routes/Admin/QLGiaoVien.Route');
 var QLGiaoVienDayLop = require('./routes/Admin/QLGiaoVienDayLop.Route');
+var QLDiem = require('./routes/Admin/QLDiem.Route');
 //===================admin=================
 
 

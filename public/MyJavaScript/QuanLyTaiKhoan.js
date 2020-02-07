@@ -56,20 +56,25 @@ $('#tblresult').DataTable({
 
 $("#btnAdd").click(function () {
     $('#c_username').val(null);
+    $('#c_role').val(null);
     $('#c_password').val(null);
     $("#creatmodal").modal('show');
 });
 
 $("#tblresult").on("click", ".btnEdit", function () {
     var obj = $('#tblresult').DataTable().row($(this).parents('tr')).data();
+    $('#IDu').val(obj._id);
     $('#u_username').val(obj.username);
     $('#u_password').val(obj.password);
+    $('#u_role').val(obj.role);
     $("#updatemodal").modal('show');
 });
 //form create new item
 $('#frmPost').submit((e) => {
     e.preventDefault();
     let form = $('#frmPost').serializeArray();
+    console.log(form);
+    
     $.ajax({
         url: "/qltk/create",
         method: "POST",
@@ -79,7 +84,7 @@ $('#frmPost').submit((e) => {
     .done((data) => {
         if (data.err === 0) {
             $('#tblresult').DataTable().ajax.reload();
-            $("#editmodal").modal('hide');
+            $("#createmodal").modal('hide');
             toastr["success"]("Cập nhật bản ghi thành công! ");
         }
         else {
@@ -100,14 +105,14 @@ $('#frmPut').submit((e) => {
     var id = $('#IDu').val();
     $.ajax({
         url: "/qltk/"+id+"/update",
-        method: "POST",
+        method: "PUT",
         data: form,
         dataType: 'json'
     })
     .done((data) => {
         if (data.err === 0) {
             $('#tblresult').DataTable().ajax.reload();
-            $("#editmodal").modal('hide');
+            $("#updatemodal").modal('hide');
             toastr["success"]("Cập nhật bản ghi thành công! ");
         }
         else {

@@ -1,26 +1,55 @@
 var HocSinhModel = require('../models/HocSinh');
 
-async function SelectAll(req, res) {
+async function SelectAll(req, res, filler) {
     var start = req.body.start == null ? 0 : req.body.start;
     var length = req.body.length == null ? 5 : req.body.length;
     try {
         var dataresult = await HocSinhModel.find()
+            .where('Lop_idLop','5e1307e9ca202f641e064b72')
             .skip(parseInt(start))
             .limit(parseInt(length))
+            .sort({ 'created_at': -1 })
             .populate('Lop_idLop', ['_id', 'tenLop', 'viTri'])
             .exec();
-        res.json(dataresult);
+        res.json({ "recordsTotal": dataresult.length, "recordsFiltered": await HocSinhModel.count(), "data": dataresult, "draw": req.body.draw });
     }
     catch (err) {
         throw (err);
     }
 }
 
-function SelectByID(req, res) {
-    HocSinhModel.findById(req.params.id, function (err, product) {
-        if (err) return next(err);
-        res.json(product);
-    })
+async function SelectByID(req, res) {
+    var start = req.body.start == null ? 0 : req.body.start;
+    var length = req.body.length == null ? 5 : req.body.length;
+    var Lop_idLop = req.body.classFiller == null ? 1 : req.body.classFiller;
+    console.log(Lop_idLop);
+    
+    try {
+        if(Lop_idLop != 1)
+        {
+            var dataresult = await HocSinhModel.find()
+            .where('Lop_idLop', Lop_idLop)
+            .skip(parseInt(start))
+            .limit(parseInt(length))
+            .sort({ 'created_at': -1 })
+            .populate('Lop_idLop', ['_id', 'tenLop', 'viTri'])
+            .exec();
+        }
+        else
+        {
+            var dataresult = await HocSinhModel.find()
+            .skip(parseInt(start))
+            .limit(parseInt(length))
+            .sort({ 'created_at': -1 })
+            .populate('Lop_idLop', ['_id', 'tenLop', 'viTri'])
+            .exec();
+        }
+        
+        res.json({ "recordsTotal": dataresult.length, "recordsFiltered": await HocSinhModel.count(), "data": dataresult, "draw": req.body.draw });
+    }
+    catch (err) {
+        throw (err);
+    }
 }
 
 function Create(req, res) {
@@ -35,7 +64,7 @@ function Create(req, res) {
     });
     HocSinh.save((err) => {
         if (err) {
-            res.json({ err: 0, msg: err });
+            res.json({ err: 1, msg: err });
         }
         res.json({ err: 0, msg: 'HocSinh insert successfully' });
     })
@@ -45,9 +74,9 @@ function Update(req, res) {
     console.log(req.params.id);
     HocSinhModel.findByIdAndUpdate(req.params.id, { $set: req.body }, function (err, product) {
         if (err) {
-            console.log(err);
+            res.json({ err: 1, msg: err })
         }
-        res.send('Product udpated.');
+        res.json({ err: 0, msg: 'HocSinh update successfully' })
     });
 }
 

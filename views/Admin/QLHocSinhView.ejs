@@ -35,7 +35,16 @@
             <section class="content">
                 <div class="container-fluid">
                     <div class="card">
-                        <div class="card-header row">
+                        <div class="card-header">
+                            <div class="form-group col-md-2">
+                                <label for="my-select">Lọc theo lớp học</label>
+                                <select id="classFiller" class="form-control" name="">
+                                    <option value=1>Chọn tất cả---------</option>
+                                    <% Lop.map((element,index)=>{ %>
+                                    <option value="<%= element._id %>"><%= element.tenLop%></option>
+                                    <% }) %>
+                                </select>
+                            </div>
                         </div>
                         <div class="card-body">
                             <table id="tblresult" class="table table-bordered table-striped">
@@ -46,16 +55,10 @@
                                         <th>Họ</th>
                                         <th>Tên</th>
                                         <th>Ngày sinh</th>
-                                        <th>ID_User</th>
                                         <th>Địa chỉ</th>
-                                        <th>ID_Class</th>
+                                        <th>Giới tính</th>
+                                        <th>id Lớp</th>
                                         <th>Lớp</th>
-                                        <th>Điểm HS1</th>
-                                        <th>Điểm HS2</th>
-                                        <th>Điểm HS3</th>
-                                        <th>ID_subject</th>
-                                        <th>Tên môn học</th>
-                                        <th>Trạng thái</th>
                                         <th>Thao tác</th>
                                     </tr>
                                 </thead>
@@ -112,77 +115,142 @@
             </div>
         </div>
     </div>
-
-    <!-- The Modal edit -->
-    <div class="modal fade" id="editmodal">
+    <!-- The Modal create -->
+    <div class="modal fade" id="createmodal">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Học sinh</h4>
+                    <h4 class="modal-title">Thêm mới học sinh</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <form role="form" id="frmPost" method="post">
-                        <input type="hidden" class="form-control" id="IDp" name="IDp">
+                    <form id="frmPost" method="post">
                         <div class="card-body">
                             <div class="row form-group">
                                 <div class="col-md-6">
-                                    <label for="FirstName">Họ</label>
-                                    <input type="text" class="form-control" id="FirstName" name="FirstName"
-                                        placeholder="Họ...">
+                                    <label for="c_hoHS">Họ</label>
+                                    <input type="text" class="form-control" id="c_hoHS" name="hoHS" placeholder="Họ...">
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="LastName">Tên</label>
-                                    <input type="text" class="form-control" id="LastName" name="LastName"
+                                    <label for="c_tenHS">Tên</label>
+                                    <input type="text" class="form-control" id="c_tenHS" name="tenHS"
                                         placeholder="Tên...">
                                 </div>
                             </div>
                             <div class="row form-group">
                                 <div class="col-sm-6">
-                                    <label for="Birthday">Ngày sinh</label>
-                                    <input type='date' id='Birthday' name="Birthday" class="form-control" placeholder="Ngày sinh"/>
+                                    <label for="c_ngaySinhHS">Ngày sinh</label>
+                                    <input type='date' id='c_ngaySinhHS' name="ngaySinhHS" class="form-control"
+                                        placeholder="Ngày sinh" />
                                 </div>
                                 <div class="col-sm-6">
-                                    <label for="Address">Địa chỉ</label>
-                                    <input type='text' id='Address' name="Address" class="form-control" placeholder="Địa chỉ"/>
+                                    <label for="c_diaChiHS">Địa chỉ</label>
+                                    <input type='text' id='c_diaChiHS' name="diaChiHS" class="form-control"
+                                        placeholder="Địa chỉ" />
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <label for="HS1">Điểm HS1</label>
-                                    <input type='text' id='HS1' name="HS1" class="form-control" placeholder="Điểm HS1"/>
+                            <div class="row form-group">
+                                <div class="col-md-6">
+                                    <label for="c_gioiTinhHS">Chọn giới tính</label>
+                                    <select id="c_gioiTinhHS" class="form-control" name="gioiTinhHS">
+                                        <option value=1>Nam</option>
+                                        <option value=0>Nữ</option>
+                                    </select>
                                 </div>
-                                <div class="col-sm-3">
-                                    <label for="HS2">Điểm HS2</label>
-                                    <input type='text' id='HS2' name="HS2" class="form-control" placeholder="Điểm HS2"/>
-                                </div>
-                                <div class="col-sm-3">
-                                    <label for="HS3">Điểm HS3</label>
-                                    <input type='text' id='HS3' name="HS3" class="form-control" placeholder="Điểm HS3"/>
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="Status">Chọn trạng thái</label>
-                                    <select name="Status" id="Status" class="form-control">
-                                        <option value="1">Hoạt động</option>
-                                        <option value="0" selected>Không hoạt động</option>
+                                <div class="col-md-6">
+                                    <label for="c_Lop_idLop">Chọn lớp</label>
+                                    <select id="c_Lop_idLop" class="form-control" name="Lop_idLop">
+                                        <option value=1>--Chọn lớp--</option>
+                                        <% Lop.map((element,index)=>{ %>
+                                        <option value="<%= element._id %>"><%= element.tenLop%></option>
+                                        <% }) %>
                                     </select>
                                 </div>
                             </div>
+                        </div>
                     </form>
 
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success" form="frmPost" id="btnSubmitDetail">Submit</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success" form="frmPost" id="btnSubmitDetail">Thêm mới</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
                 </div>
 
             </div>
         </div>
     </div>
+
+    <!-- The Modal update -->
+    <div class="modal fade" id="updatemodal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Cập nhật học sinh</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form role="form" id="frmPut" method="PUT">
+                        <input type="hidden" class="form-control" id="IDu" name="IDu">
+                        <div class="card-body">
+                            <div class="row form-group">
+                                <div class="col-md-6">
+                                    <label for="hoHS">Họ</label>
+                                    <input type="text" class="form-control" id="u_hoHS" name="hoHS" placeholder="Họ...">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="tenHS">Tên</label>
+                                    <input type="text" class="form-control" id="u_tenHS" name="tenHS"
+                                        placeholder="Tên...">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-sm-6">
+                                    <label for="ngaySinhHS">Ngày sinh</label>
+                                    <input type='date' id='u_ngaySinhHS' name="ngaySinhHS" class="form-control"
+                                        placeholder="Ngày sinh" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="diaChiHS">Địa chỉ</label>
+                                    <input type='text' id='u_diaChiHS' name="diaChiHS" class="form-control"
+                                        placeholder="Địa chỉ" />
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-6">
+                                    <label for="gioiTinhHS">Chọn giới tính</label>
+                                    <select id="u_gioiTinhHS" class="form-control" name="gioiTinhHS">
+                                        <option value=1>Nam</option>
+                                        <option value=0>Nữ</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="Lop_idLop">Chọn lớp</label>
+                                    <select id="u_Lop_idLop" class="form-control" name="Lop_idLop">
+                                        <option value=1>--Chọn lớp--</option>
+                                        <% Lop.map((element,index)=>{ %>
+                                        <option value="<%= element._id %>"><%= element.tenLop%></option>
+                                        <% }) %>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" form="frmPut" id="btnSubmitDetail">Cập nhật</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
     <!-- jQuery -->
     <% include layout/_defaultScript %>

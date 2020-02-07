@@ -1,5 +1,4 @@
 var MonHocModel = require('../models/MonHoc');
-var HocKy = require('../models/HocKy');
 
 async function selectAll(req, res) {
     var start = req.body.start == null ? 0 : req.body.start;
