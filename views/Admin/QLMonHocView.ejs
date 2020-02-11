@@ -21,7 +21,7 @@
                         <div class="col-sm-2">
                             <ol class="breadcrumb float-sm-left">
                                 <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-                                <li class="breadcrumb-item active">Quản lý lớp học</li>
+                                <li class="breadcrumb-item active">Quản lý môn học</li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
@@ -33,9 +33,9 @@
                 <div class="container-fluid">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Danh sách lớp học</h4>
+                            <h4>Danh môn học</h4>
                             <div class="col-2">
-                                <select name="subjectname" id="subjectname" class="form-control">
+                                <select name="subjectname" id="fillerHK" class="form-control">
                                     <option value="1" selected="selected">--Chọn học kỳ--</option>
                                     <% hocky.map((element,index)=>{ %>
                                     <option value="<%= element._id %>"><%= element.tenHocKy%></option>

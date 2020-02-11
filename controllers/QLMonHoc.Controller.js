@@ -8,12 +8,21 @@ async function selectAll(req, res) {
     });
 
     try {
-       
-        var data = await MonHocModel.find({})
-        .skip(parseInt(start))
-        .limit(parseInt(length))
-        .populate('HocKy_idHocKy','tenHocKy')
-        .exec();
+        if (req.body.HocKy_idHocKy != 1) {
+            var data = await MonHocModel.find({})
+                .skip(parseInt(start))
+                .limit(parseInt(length))
+                .populate('HocKy_idHocKy', 'tenHocKy')
+                .where({ HocKy_idHocKy: req.body.HocKy_idHocKy })
+                .exec();
+        }
+        else {
+            var data = await MonHocModel.find({})
+                .skip(parseInt(start))
+                .limit(parseInt(length))
+                .populate('HocKy_idHocKy', 'tenHocKy')
+                .exec();
+        }
 
         //res json for datatable
         res.json({ "recordsTotal": data.length, "recordsFiltered": total, "data": data, "draw": req.body.draw });
