@@ -3,7 +3,7 @@ var table = $('#tblresult').DataTable({
     "serverSide": true,
     "ajax": {
         "cache": "false",
-        "url": "/qlgv",
+        "url": "/qld",
         "type": "POST",
         "dataType": "json",
         // 'beforeSend': function (request) {
@@ -20,12 +20,20 @@ var table = $('#tblresult').DataTable({
     },
     "PaginationType": "bootstrap",
     "columnDefs": [
-        { "visible": false, "targets": 1},
+        { "visible": false, "targets": [1,2,5]},
         {
             "className": "text-center",
             "width": "50px",
             "orderable": false,
             "targets": 0
+        },
+        {
+            "render": (data, type, row) => {
+                return data == -1 ? '<p></p>' : data
+            },
+            "className": "text-center",
+            "orderable": false,
+            "targets": [6,7,8,9,10,11,12]
         },
     ],
     "language": {
@@ -42,9 +50,17 @@ var table = $('#tblresult').DataTable({
     columns: [
         { "data": null },
         { "data": '_id' },
-        { "data": 'tenGiaoVien' },
-        { "data": 'ngaySinh' },
-        { "data": 'diaChi' },
+        { "data": 'HocSinh_idHocSinh._id' },
+        { "data": 'HocSinh_idHocSinh.hoHS' },
+        { "data": 'HocSinh_idHocSinh.tenHS' },
+        { "data": 'MonHoc_idMonHoc._id' },
+        { "data": 'diem15_lan1' },
+        { "data": 'diem15_lan2' },
+        { "data": 'diem15_lan3' },
+        { "data": 'diem1tiet_lan1' },
+        { "data": 'diem1tiet_lan2' },
+        { "data": 'diem1tiet_lan3' },
+        { "data": 'diemThiHK' },
         { "data": 'Method' }
     ],
     bAutoWidth: false,
@@ -80,7 +96,7 @@ $('#frmPost').submit((e) => {
     e.preventDefault();
     let form = $('#frmPost').serializeArray();
     $.ajax({
-        url: "/qlgv/create",
+        url: "/qld/create",
         method: "POST",
         data: form,
         dataType: 'json'
@@ -110,7 +126,7 @@ $('#frmPut').submit((e) => {
     e.preventDefault();
     let form = $('#frmPut').serializeArray();
     $.ajax({
-        url: "/qlgv/"+id+"/update",
+        url: "/qld/"+id+"/update",
         method: "PUT",
         data: form,
         dataType: 'json'
@@ -135,9 +151,9 @@ $('#frmPut').submit((e) => {
 //---- remove 
 $("#tblresult").on("click", ".btnDelete", function () {
     var obj = $('#tblresult').DataTable().row($(this).parents('tr')).data();
-    $("#r_id").val(obj._id);
+    $("#ID").val(obj._id);
     $('#appConfirm h4').html("Xoá Giáo Viên");
-    let q = "Bạn có chắc chắn muốn xóa giáo viên <b>" + obj.tenGiaoVien + " " + "</b> không?";
+    let q = "Bạn có chắc chắn muốn xóa giáo viên <b>" + obj._id + " " + "</b> không?";
     $("#btnSubmitDetail").html("Xóa")
     $('#appConfirm h5').html(q);
     $("#appConfirm").modal('show');
@@ -146,9 +162,9 @@ $("#tblresult").on("click", ".btnDelete", function () {
 $('#frmDelete').submit((e) => {
     e.preventDefault();
     $("#btnSubmitConfirm").attr("disabled", true);
-    var id = $('#r_id').val();
+    var id = $('#ID').val();
     $.ajax({
-        url: "/qlgv/"+id+"/remove",
+        url: "/qld/"+id+"/remove",
         method: "delete",
     })
         .done((data) => {

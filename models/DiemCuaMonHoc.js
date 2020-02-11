@@ -8,3 +8,5 @@ var DiemCuaMonHoc = mongoose.Schema({
     MonHoc_idMonHoc: { type: mongoose.Schema.Types.ObjectId, ref: 'MonHoc' },
 }, schemaOptions)
 module.exports = mongoose.model("DiemCuaMonHoc", DiemCuaMonHoc);
+
+//thay đổi db , không dùng tới

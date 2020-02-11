@@ -97,6 +97,7 @@ app.use('/qlmh', isLoggedIn, QLMonHoc);
 app.use('/qlhk', isLoggedIn, QLHocKy);
 app.use('/qlgv', isLoggedIn, QLGiaoVien);
 app.use('/qlgvdl', isLoggedIn, QLGiaoVienDayLop);
+app.use('/qld',isLoggedIn,QLDiem);
 //==================!admin=================
 function isLoggedIn(req, res, next) {
   // console.log(req.isAuthenticated());

@@ -36,14 +36,25 @@
                 <div class="container-fluid">
                     <div class="card">
                         <div class="card-header">
-                            <div class="form-group col-md-2">
-                                <label for="my-select">Lọc theo lớp học</label>
-                                <select id="my-select" class="form-control" name="">
-                                    <option>---------Tất cả---------</option>
-                                    <% Lop.map((element,index)=>{ %>
-                                    <option value="<%= element._id %>"><%= element.tenLop%></option>
-                                    <% }) %>
-                                </select>
+                            <div class="row">
+                                <div class="form-group col-md-2">
+                                    <label for="my-select">Lọc theo lớp học</label>
+                                    <select id="Lop" class="form-control">
+                                        <option value=1>Chọn</option>
+                                        <% Lop.map((element,index)=>{ %>
+                                        <option value="<%= element._id %>"><%= element.tenLop%></option>
+                                        <% }) %>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="my-select">Lọc theo Môn học</label>
+                                    <select id="MonHoc" class="form-control">
+                                        <option value=1>Chọn</option>
+                                        <% MonHoc.map((element,index)=>{ %>
+                                        <option value="<%= element._id %>"><%= element.tenMonHoc%></option>
+                                        <% }) %>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="card-body">
@@ -52,13 +63,13 @@
                                     <tr>
                                         <th>STT</th>
                                         <th>ID</th>
+                                        <th>Học sinh id</th>
                                         <th>Họ</th>
                                         <th>Tên</th>
-                                        <th>Ngày sinh</th>
-                                        <th>Địa chỉ</th>
-                                        <th>Giới tính</th>
-                                        <th>id Lớp</th>
-                                        <th>Lớp</th>
+                                        <th>Môn học id</th>
+                                        <th colspan="3">Điểm 15'</th>
+                                        <th colspan="3">Điểm 1 tiết</th>
+                                        <th>Điểm HK</th>
                                         <th>Thao tác</th>
                                     </tr>
                                 </thead>
