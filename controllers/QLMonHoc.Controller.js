@@ -25,7 +25,6 @@ async function selectAll(req, res) {
                 .exec();
         }
 
-
         //res json for datatable
         res.json({ "recordsTotal": data.length, "recordsFiltered": total, "data": data, "draw": req.body.draw });
     }

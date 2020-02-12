@@ -9,17 +9,34 @@ async function selectAll(req, res) {
     var length = req.body.length == null ? 5 : req.body.length;
     var MonHoc = req.body.MonHoc;
     var Lop = req.body.Lop;
-    
+
     try {
         var dataResult = await DiemModel.find()
             .skip(parseInt(start))
             .limit(parseInt(length))
-            .populate({path:'HocSinh_idHocSinh',match:{Lop_idLop:"5e1d2e8fbdccf82640defcbd"}})
-            // .where('Lop_idLop',!null)
-            .populate({path:'MonHoc_idMonHoc',match:{_id:"5e33ede8907e404300b0afac"}})
-             console.log(dataResult);
-             
-        res.json({ "recordsTotal": dataResult.length, "recordsFiltered": await DiemModel.count(), "data": dataResult, "draw": req.body.draw });
+            .populate({ path: 'HocSinh_idHocSinh', match: { Lop_idLop: "5e1307e9ca202f641e064b71" } })
+            .populate({ path: 'MonHoc_idMonHoc', match: { _id: "5e33ede8907e404300b0afad" } })
+
+        // .where({ "HocSinh_idHocSinh": null })
+        // .where({MonHoc_idMonHoc:!null});
+        .exec((err,result)=>{
+            console.log({ err,result});
+            if(err)
+            res.json({ err: 1, msg: err });
+            // if(result[0].HocSinh_idHocSinh == null)
+            // res.json(null);
+            // console.log(DiemModel[0].HocSinh_idHocSinh);
+
+            result.map((e,i)=>{
+                if(e.HocSinh_idHocSinh == null)
+                console.log(e);
+
+            })
+            // res.json(result);
+        })
+        res.json(dataResult);
+
+        // res.json({ "recordsTotal": dataResult.length, "recordsFiltered": await DiemModel.count(), "data": dataResult, "draw": req.body.draw });
     }
     catch (err) {
         throw (err);

@@ -1,3 +1,7 @@
+$('#fillerHK').on('change', function() {
+    table.clear();
+    table.ajax.reload();
+});
 var table = $('#tblresult').DataTable({
     "processing": true,
     "serverSide": true,
@@ -6,6 +10,9 @@ var table = $('#tblresult').DataTable({
         "url": "/qlmh",
         "type": "POST",
         "dataType": "json",
+        "data": {
+            HocKy_idHocKy : function(){return $('#fillerHK').find(":selected").val()}
+        },
         // 'beforeSend': function (request) {
         //     request.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
         // },
