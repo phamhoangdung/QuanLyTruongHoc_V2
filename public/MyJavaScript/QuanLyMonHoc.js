@@ -105,7 +105,7 @@ $('#frmPut').submit((e) => {
     e.preventDefault();
     let form = $('#frmPut').serializeArray();
     $.ajax({
-        url: "/qllh/"+id+"/update",
+        url: "/qlmh/"+id+"/update",
         method: "PUT",
         data: form,
         dataType: 'json'

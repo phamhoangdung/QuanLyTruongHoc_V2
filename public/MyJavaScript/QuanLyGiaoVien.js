@@ -58,23 +58,17 @@ var table = $('#tblresult').DataTable({
 
 $("#btnAdd").click(function () {
     $('#IDp').val(-1);
-    $('#tenGiaoVien').val(null);
+    $('#FirstName').val(null);
+    $('#LastName').val(null);
     $('#Birthday').val(null);
     $('#Address').val(null);
+    $('#Class').val(null);
+    $('#tenMonDay').val(null);
     $('#Status').val(0);
     $("#editmodal").modal('show');
 });
 
-$("#tblresult").on("click", ".btnEdit", function () {
-    var obj = $('#tblresult').DataTable().row($(this).parents('tr')).data();
-    $('#u_id').val(obj._id);
-    $('#u_tenGiaoVien').val(obj.tenGiaoVien);
-    $('#u_ngaySinh').val(obj.ngaySinh);
-    $('#u_diaChi').val(obj.diaChi);
-    $('#Status').val(obj.Status);
-    $('#IDp').val(obj.ID);
-    $("#updatemodal").modal('show');
-});
+
 
 $('#frmPost').submit((e) => {
     e.preventDefault();
@@ -85,7 +79,7 @@ $('#frmPost').submit((e) => {
         data: form,
         dataType: 'json'
     })
-        .done((data) => {
+        .done((data) => {            
             if (data.err === 0) {
                 $('#tblresult').DataTable().ajax.reload();
                 $("#editmodal").modal('hide');
@@ -102,7 +96,16 @@ $('#frmPost').submit((e) => {
     $("#btnSubmitConfirm").removeAttr("disabled");
 });
 
-
+$("#tblresult").on("click", ".btnEdit", function () {
+    var obj = $('#tblresult').DataTable().row($(this).parents('tr')).data();
+    $('#u_FirstName').val(obj.FirstName);
+    $('#u_LastName').val(obj.LastName);
+    $('#u_Birthday').val(obj.Birthday);
+    $('#u_Address').val(obj.Address);
+    $('#u_Class').val(obj.Class);
+    $('#u_tenMonDay').val(obj.tenMonDay);
+    $("#updatemodal").modal('show');
+});
 
 // update
 $('#frmPut').submit((e) => {

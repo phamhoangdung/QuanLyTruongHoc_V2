@@ -63,8 +63,6 @@ $("#btnAdd").click(function () {
     $('#tenGiaoVien').val(null);
     $('#lop_idLop').val(null);
     $('#giaoVien_idGiaoVien').val(null);
-    $('#FirstName').val(null);
-    $('#LastName').val(null);
     // $('#ID_Class').val(1);
     // $('#ID_subject').val(1);
     $('#Status').val(0);
@@ -77,8 +75,6 @@ $("#tblresult").on("click", ".btnEdit", function () {
     $('#u_tenGiaoVien').val(obj.tenGiaoVien);
     $('#u_lop_idLop').val(obj.lop_idLop);
     $('#u_giaoVien_idGiaoVien').val(obj.giaoVien_idGiaoVien);
-    $('#FirstName').val(obj.FirstName);
-    $('#LastName').val(obj.LastName);
     $('#Status').val(obj.Status);
     $('#IDp').val(obj.ID);
     $("#updatemodal").modal('show');

@@ -7,8 +7,10 @@ async function selectAll(req, res) {
        var dataResult = await GiaoVienModel.find()
         .skip(parseInt(start))
         .limit(parseInt(length))
-        .populate(Lop.tenLop, MonHoc.tenMonHoc);
+        .populate('tenLop', 'tenMonHoc')
+        .exec();
         res.json(dataResult);
+        res.json({ "recordsTotal": data.length, "recordsFiltered": total, "data": data, "draw": req.body.draw });
     }
     catch (err) {
         throw (err);
@@ -21,6 +23,7 @@ function getByID(req, res) {
     })
 }
 function create(req, res) {
+    console.log(req.body);
     let GiaoVien = new GiaoVienModel({
         tenGiaoVien: req.body.tenGiaoVien,
         NgaySinh: req.body.NgaySinh,
