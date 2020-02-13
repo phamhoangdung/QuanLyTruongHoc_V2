@@ -100,6 +100,7 @@ $('#frmPost').submit((e) => {
 
 $("#tblresult").on("click", ".btnEdit", function () {
     var obj = $('#tblresult').DataTable().row($(this).parents('tr')).data();
+    $('#u_id').val(obj.id);
     $('#u_tenMonHoc').val(obj.tenMonHoc);
     $('#u_soTiet').val(obj.soTiet);
     $('#u_HocKy_idHocKy').val(obj.HocKy_idHocKy._id);
@@ -112,7 +113,7 @@ $('#frmPut').submit((e) => {
     e.preventDefault();
     let form = $('#frmPut').serializeArray();
     $.ajax({
-        url: "/qlmh/"+id+"/update",
+        url: "/qlmh"+id+"/update",
         method: "PUT",
         data: form,
         dataType: 'json'
@@ -131,7 +132,7 @@ $('#frmPut').submit((e) => {
             $("#updatemodal").modal('hide');
             toastr["error"]("Xảy ra lỗi, vui lòng tải lại trang!");
         });
-    $("#btnSubmitConfirm").removeAttr("disabled");
+    $("#btnSubmitUpdate").removeAttr("disabled");
 });
 
 //---- remove 

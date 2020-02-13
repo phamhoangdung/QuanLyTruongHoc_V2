@@ -6,14 +6,15 @@ var table = $('#tblresult').DataTable({
         "url": "/qlgv",
         "type": "POST",
         "dataType": "json",
+        
         // 'beforeSend': function (request) {
         //     request.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
         // },
         //"cache":false,
         "dataSrc": function (json) {
             json.data.forEach(element => {
-                element.Method = `<a class=" my-method-button btnEdit fa-hover"    title="Sửa tài khoản" ><i class="fa fa-edit"></i></a> &nbsp
-                                <a class=" my-method-button btnDelete fa-hover"    title="Xóa tài khoản" ><i class="fa fa-trash"></i></a>`;
+                element.Method = `<a class=" my-method-button btnEdit fa-hover"    title="Sửa Giáo Viên" ><i class="fa fa-edit"></i></a> &nbsp
+                                <a class=" my-method-button btnDelete fa-hover"    title="Xóa Giáo Viên" ><i class="fa fa-trash"></i></a>`;
             });
             return json.data;
         },
@@ -58,12 +59,11 @@ var table = $('#tblresult').DataTable({
 
 $("#btnAdd").click(function () {
     $('#IDp').val(-1);
-    $('#FirstName').val(null);
-    $('#LastName').val(null);
-    $('#Birthday').val(null);
-    $('#Address').val(null);
-    $('#Class').val(null);
-    $('#tenMonDay').val(null);
+    $('#tenGiaoVien').val(null);
+    $('#ngaySinh').val(null);
+    $('#diaChi').val(null);
+    $('#idLop').val(null);
+    $('#idMonHoc').val(null);
     $('#Status').val(0);
     $("#editmodal").modal('show');
 });
@@ -98,12 +98,12 @@ $('#frmPost').submit((e) => {
 
 $("#tblresult").on("click", ".btnEdit", function () {
     var obj = $('#tblresult').DataTable().row($(this).parents('tr')).data();
-    $('#u_FirstName').val(obj.FirstName);
-    $('#u_LastName').val(obj.LastName);
-    $('#u_Birthday').val(obj.Birthday);
-    $('#u_Address').val(obj.Address);
-    $('#u_Class').val(obj.Class);
-    $('#u_tenMonDay').val(obj.tenMonDay);
+    $('#u_IDp').val(obj.IDp);
+    $('#u_tenGiaoVien').val(obj.tenGiaoVien);
+    $('#u_ngaySinh').val(obj.ngaySinh);
+    $('#u_diaChi').val(obj.diaChi);
+    $('#u_idLop').val(obj.tenLop);
+    $('#u_idMonHoc').val(obj.tenMonHoc);
     $("#updatemodal").modal('show');
 });
 
@@ -113,7 +113,7 @@ $('#frmPut').submit((e) => {
     e.preventDefault();
     let form = $('#frmPut').serializeArray();
     $.ajax({
-        url: "/qlgv/"+id+"/update",
+        url: "/qlgv"+id+"/update",
         method: "PUT",
         data: form,
         dataType: 'json'
@@ -132,7 +132,7 @@ $('#frmPut').submit((e) => {
             $("#updatemodal").modal('hide');
             toastr["error"]("Xảy ra lỗi, vui lòng tải lại trang!");
         });
-    $("#btnSubmitConfirm").removeAttr("disabled");
+    $("#btnSubmitDetail").removeAttr("disabled");
 });
 
 //---- remove 
@@ -141,17 +141,17 @@ $("#tblresult").on("click", ".btnDelete", function () {
     $("#r_id").val(obj._id);
     $('#appConfirm h4').html("Xoá Giáo Viên");
     let q = "Bạn có chắc chắn muốn xóa giáo viên <b>" + obj.tenGiaoVien + " " + "</b> không?";
-    $("#btnSubmitDetail").html("Xóa")
+    $("#btnSubmit").html("Xóa")
     $('#appConfirm h5').html(q);
     $("#appConfirm").modal('show');
 });
 
 $('#frmDelete').submit((e) => {
     e.preventDefault();
-    $("#btnSubmitConfirm").attr("disabled", true);
+    $("#btnSubmit").attr("disabled", true);
     var id = $('#r_id').val();
     $.ajax({
-        url: "/qlgv/"+id+"/remove",
+        url: "/qlgv"+id+"/remove",
         method: "delete",
     })
         .done((data) => {
@@ -168,7 +168,7 @@ $('#frmDelete').submit((e) => {
             $("#appConfirm").modal('hide');
             toastr["error"]("Xảy ra lỗi, vui lòng tải lại trang!");
         });
-    $("#btnSubmitConfirm").removeAttr("disabled");
+    $("#btnSubmit").removeAttr("disabled");
 });
 
 toastr.options = {

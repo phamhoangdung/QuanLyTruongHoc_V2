@@ -4,7 +4,7 @@ const schemaOptions = {
 };
 var Lop = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    tenLop: {type:mongoose.Schema.Types.ObjectId, ref:'tenLop'},
+    tenLop: String,
     viTri: String
 },schemaOptions)
 

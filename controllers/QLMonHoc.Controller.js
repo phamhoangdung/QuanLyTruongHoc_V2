@@ -34,13 +34,15 @@ async function selectAll(req, res) {
     }
 }
 function create(req, res) {
-    console.log(req.body);
+    // console.log(req.body.tenMonHoc);
     let MonHoc = new MonHocModel({
         tenMonHoc: req.body.tenMonHoc,
         soTiet: req.body.soTiet == null ? 0 : req.body.soTiet,
         HocKy_idHocKy: req.body.HocKy_idHocKy
     });
-    MonHoc.save((err) => {
+    console.log(MonHoc);
+
+    MonHoc.save((err,data) => {
         if (err)
              return res.json({ err: 1, msg: err });
         res.json({ err: 0, msg: 'MonHoc create successfully' });
