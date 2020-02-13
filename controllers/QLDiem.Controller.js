@@ -7,34 +7,36 @@ var async = require('async');
 async function selectAll(req, res) {
     var start = req.body.start == null ? 0 : req.body.start;
     var length = req.body.length == null ? 5 : req.body.length;
-    var MonHoc = req.body.MonHoc;
-    var Lop = req.body.Lop;
-
+    var MonHoc = req.body.MonHoc_idMonHoc;
+    var Lop = req.body.Lop_idLop;
+    var total = await DiemModel.count();
     try {
-        var dataResult = await DiemModel.find()
-            .skip(parseInt(start))
-            .limit(parseInt(length))
-            .populate({ path: 'HocSinh_idHocSinh', match: { Lop_idLop: "5e1307e9ca202f641e064b71" } })
-            .populate({ path: 'MonHoc_idMonHoc', match: { _id: "5e33ede8907e404300b0afad" } })
+        if (MonHoc != 1 && Lop != 1) {
+            DiemModel.find()
+                .skip(parseInt(start))
+                .limit(parseInt(length))
+                .populate({ path: 'HocSinh_idHocSinh', match: { Lop_idLop: Lop } })
+                .populate({ path: 'MonHoc_idMonHoc', match: { _id: MonHoc } })
+                .exec((err, result) => {
+                    if (err)
+                        res.json({ err: 1, msg: err });
+                    var datareturn = [];
+                    console.log(result);
 
-        // .where({ "HocSinh_idHocSinh": null })
-        // .where({MonHoc_idMonHoc:!null});
-        .exec((err,result)=>{
-            console.log({ err,result});
-            if(err)
-            res.json({ err: 1, msg: err });
-            // if(result[0].HocSinh_idHocSinh == null)
-            // res.json(null);
-            // console.log(DiemModel[0].HocSinh_idHocSinh);
+                    result.map((e, i) => {
+                        if (e.HocSinh_idHocSinh != null && e.MonHoc_idMonHoc != null)
+                            datareturn.push(e);
+                    })
+                    console.log(datareturn);
 
-            result.map((e,i)=>{
-                if(e.HocSinh_idHocSinh == null)
-                console.log(e);
+                    res.json({ "recordsTotal": datareturn.length, "recordsFiltered": total, "data": datareturn, "draw": req.body.draw });
+                })
+        }
+        else {
+            res.json({ data: [] })
+        }
 
-            })
-            // res.json(result);
-        })
-        res.json(dataResult);
+        // res.json(dataResult);
 
         // res.json({ "recordsTotal": dataResult.length, "recordsFiltered": await DiemModel.count(), "data": dataResult, "draw": req.body.draw });
     }
@@ -48,6 +50,13 @@ function getByID(req, res) {
         res.json(product);
     })
 }
+var checkExist = new Promise(function (resolve, reject,idhs, idmh) {
+    DiemModel.count({ HocSinh_idHocSinh: idhs, MonHoc_idMonHoc: idmh }, function (err, count) {
+        if(err)
+        reject(err);
+        resolve(count);
+    })
+})
 
 async function autoCreateDiemForHocSinh(req, res) {
     DiemModel.init()
@@ -56,27 +65,35 @@ async function autoCreateDiemForHocSinh(req, res) {
         .where('Lop_idLop', req.body.Lop_idLop);
     // res.json(Lop);
     var Diems = [];
-    Lop.map((e, i) => {
-        Diems.push(new DiemModel({
-            HocSinh_idHocSinh: e._id,
-            MonHoc_idMonHoc: req.body.MonHoc_idMonHoc,
-            diem15_lan1: -1,
-            diem15_lan2: -1,
-            diem15_lan3: -1,
-            diem1tiet_lan1: -1,
-            diem1tiet_lan2: -1,
-            diem1tiet_lan3: -1,
-            diemThiHK: -1,
-        }))
+    Lop.map(async (e, i) => {
+        // console.log(await DiemModel.find({ HocSinh_idHocSinh: e._id, MonHoc_idMonHoc: req.body.MonHoc_idMonHoc }));
+        console.log(check(e._id, req.body.MonHoc_idMonHoc));
+        res.json('ok');
+        //if (check(e._id,req.body.MonHoc_idMonHoc)) {
+        // Diems.push(new DiemModel({
+        //     HocSinh_idHocSinh: e._id,
+        //     MonHoc_idMonHoc: req.body.MonHoc_idMonHoc,
+        //     diem15_lan1: -1,
+        //     diem15_lan2: -1,
+        //     diem15_lan3: -1,
+        //     diem1tiet_lan1: -1,
+        //     diem1tiet_lan2: -1,
+        //     diem1tiet_lan3: -1,
+        //     diemThiHK: -1,
+        // }))
+        // res.json(' ok ');
+        // }
+        // else res.json('not ok');
     })
-    async.eachSeries(Diems, function (diem, asyncdone) {
-        console.log(diem);
-        diem.save(asyncdone);
-    }, function (err) {
-        if (err) return console.log(err);
-        res.json({ err: 0, msg: "Diem create successfully" });
-        // done(); // or `done(err)` if you want the pass the error up
-    });
+    // async.eachSeries(Diems, function (diem, asyncdone) {
+    //     console.log(diem);
+    //     diem.save(asyncdone);
+    // }, function (err) {
+    //     if (err) return console.log(err);
+    //     res.json({ err: 0, msg: "Diem create successfully" });
+    //     // done(); // or `done(err)` if you want the pass the error up
+    // });
+
     //  Diem.forEach(async (e,i)=>{
     //     console.log(i);
     //     await Diem[i].save( (err, result)=>{
