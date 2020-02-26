@@ -12,7 +12,7 @@ var usersRouter = require('./routes/users');
 const mongoose = require('mongoose');
 var app = express();
 //===================admin=================
-var indexadmin = require('./routes/Admin/index');
+var indexadmin = require('./routes/Admin/Index.Route');
 var QLHocSinh = require('./routes/Admin/QLHocSinh.Route');
 var QLLopHoc = require('./routes/Admin/QLLopHoc.Route');
 var QLTaiKhoan = require('./routes/Admin/QLTaiKhoan.Route');
