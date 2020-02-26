@@ -21,13 +21,12 @@ async function selectAll(req, res) {
                     if (err)
                         res.json({ err: 1, msg: err });
                     var datareturn = [];
-                    console.log(result);
-
                     result.map((e, i) => {
                         if (e.HocSinh_idHocSinh != null && e.MonHoc_idMonHoc != null)
                             datareturn.push(e);
                     })
-                    console.log(datareturn);
+
+                    // console.log(result);
 
                     res.json({ "recordsTotal": datareturn.length, "recordsFiltered": total, "data": datareturn, "draw": req.body.draw });
                 })
@@ -50,57 +49,82 @@ function getByID(req, res) {
         res.json(product);
     })
 }
-var checkExist = new Promise(function (resolve, reject,idhs, idmh) {
-    DiemModel.count({ HocSinh_idHocSinh: idhs, MonHoc_idMonHoc: idmh }, function (err, count) {
-        if(err)
-        reject(err);
-        resolve(count);
-    })
-})
+var checkExist = function (idhs, idmh) {
+    return new Promise(function (resolve, reject) {
+        if (idhs != null && idmh != null) {
+            DiemModel.count({ HocSinh_idHocSinh: idhs, MonHoc_idMonHoc: idmh }, function (err, count) {
+                if (err)
+                    reject(-1);
+                resolve(count);
 
-async function autoCreateDiemForHocSinh(req, res) {
+            })
+        }
+        else {
+            reject(-1);
+        }
+
+    })
+}
+
+async function autoCreate(req, res) {
     DiemModel.init()
-    var Lop = await HocSinhModel
+    var HocSinh = await HocSinhModel
         .find((err, result) => { return result._id })
         .where('Lop_idLop', req.body.Lop_idLop);
     // res.json(Lop);
-    var Diems = [];
-    Lop.map(async (e, i) => {
-        // console.log(await DiemModel.find({ HocSinh_idHocSinh: e._id, MonHoc_idMonHoc: req.body.MonHoc_idMonHoc }));
-        console.log(check(e._id, req.body.MonHoc_idMonHoc));
-        res.json('ok');
-        //if (check(e._id,req.body.MonHoc_idMonHoc)) {
-        // Diems.push(new DiemModel({
-        //     HocSinh_idHocSinh: e._id,
-        //     MonHoc_idMonHoc: req.body.MonHoc_idMonHoc,
-        //     diem15_lan1: -1,
-        //     diem15_lan2: -1,
-        //     diem15_lan3: -1,
-        //     diem1tiet_lan1: -1,
-        //     diem1tiet_lan2: -1,
-        //     diem1tiet_lan3: -1,
-        //     diemThiHK: -1,
-        // }))
-        // res.json(' ok ');
-        // }
-        // else res.json('not ok');
+    let Diems = [];
+    await HocSinh.map(async (e, i) => {
+        let check = await checkExist(e._id, req.body.MonHoc_idMonHoc);
+        if (check === 0) {
+            //Diems.push(
+            await new DiemModel({
+                HocSinh_idHocSinh: e._id,
+                MonHoc_idMonHoc: req.body.MonHoc_idMonHoc,
+                diem15_lan1: -1,
+                diem15_lan2: -1,
+                diem15_lan3: -1,
+                diem1tiet_lan1: -1,
+                diem1tiet_lan2: -1,
+                diem1tiet_lan3: -1,
+                diemThiHK: -1,
+            }).save((err, result) => {
+                console.log(result);
+                res.json({ err: 0, msg: "Diem create successfully" });
+                return;
+            })
+            //)
+        }
+        else {
+            res.json({ err: 1, msg: "Đã tồn tại" });
+            return;
+        }
     })
-    // async.eachSeries(Diems, function (diem, asyncdone) {
-    //     console.log(diem);
-    //     diem.save(asyncdone);
-    // }, function (err) {
-    //     if (err) return console.log(err);
-    //     res.json({ err: 0, msg: "Diem create successfully" });
-    //     // done(); // or `done(err)` if you want the pass the error up
-    // });
+
+    // res.json(Diems);
+    // return;
+
+    //  console.log(Diems);
+
+    // if(await Diems.count > 0)
+    // {
+    //     async.mapSeries(Diems, function (diem, asyncdone) {
+    //         console.log("=>" + asyncdone);
+    //         diem.save(asyncdone);
+    //     }, function (err) {
+    //         if (err) return console.log(err);
+    //         res.json({ err: 0, msg: "Diem create successfully" });
+    //         return;
+    //         // done(); // or `done(err)` if you want the pass the error up
+    //     });
+    // }
 
     //  Diem.forEach(async (e,i)=>{
     //     console.log(i);
     //     await Diem[i].save( (err, result)=>{
     //         console.log(result);
-
     //         // res.setHeader('Content-Type', 'text/plain');
-    //         res.statusCode = 200;
+    //         res.json({ err: 0, msg: "Diem create successfully" });
+    //         return; 
     //     })
     // })
 }
@@ -149,5 +173,5 @@ module.exports = {
     create: create,
     update: update,
     remove: remove,
-    ListDiemvsHocSinh: autoCreateDiemForHocSinh
+    autoCreate: autoCreate
 }

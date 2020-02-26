@@ -5,8 +5,16 @@ const schemaOptions = {
     collection: 'TaiKhoan', timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
 };
 var TaiKhoan = mongoose.Schema({
-    username: String,
-    password: String,
+    username: {
+        type: String,
+        unique: true,
+        required: true,
+        trim: true
+      },
+    password: {
+        type: String,
+        required: true,
+      },
     role: Number,
 }, schemaOptions);
 

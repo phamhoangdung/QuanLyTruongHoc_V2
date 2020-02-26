@@ -3,7 +3,7 @@ const schemaOptions = {
     collection: 'HocSinh', timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
 };
 var HocSinh = mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
+    // _id: mongoose.Schema.Types.ObjectId,
     tenHS: String,
     hoHS: String,
     ngaySinhHS: Date,

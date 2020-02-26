@@ -1,16 +1,14 @@
-$('#fillerL').on('change', function() {
-    if($('#fillerMH').val() != 1 && $('#fillerL').val() != 1)
-    {
+$('#fillerL').on('change', function () {
+    if ($('#fillerMH').val() != 1 && $('#fillerL').val() != 1) {
         console.log($('#fillerMH').val());
         console.log($('#fillerMH').val());
-        
+
         table.clear();
         table.ajax.reload();
     }
 });
-$('#fillerMH').on('change', function() {
-    if($('#fillerMH').val() != 1 && $('#fillerL').val() != 1)
-    {
+$('#fillerMH').on('change', function () {
+    if ($('#fillerMH').val() != 1 && $('#fillerL').val() != 1) {
         table.clear();
         table.ajax.reload();
     }
@@ -25,8 +23,8 @@ var table = $('#tblresult').DataTable({
         "type": "POST",
         "dataType": "json",
         "data": {
-            Lop_idLop : function(){return $('#fillerL').find(":selected").val()},
-            MonHoc_idMonHoc : function(){return $('#fillerMH').find(":selected").val()}
+            Lop_idLop: function () { return $('#fillerL').find(":selected").val() },
+            MonHoc_idMonHoc: function () { return $('#fillerMH').find(":selected").val() }
         },
         // 'beforeSend': function (request) {
         //     request.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
@@ -34,15 +32,14 @@ var table = $('#tblresult').DataTable({
         //"cache":false,
         "dataSrc": function (json) {
             json.data.forEach(element => {
-                element.Method = `<a class=" my-method-button btnEdit fa-hover"    title="Sửa tài khoản" ><i class="fa fa-edit"></i></a> &nbsp
-                                <a class=" my-method-button btnDelete fa-hover"    title="Xóa tài khoản" ><i class="fa fa-trash"></i></a>`;
+                element.Method = `<a class=" my-method-button btnEdit fa-hover"    title="Sửa tài khoản" ><i class="fa fa-edit"></i></a>`;
             });
             return json.data;
         },
     },
     "PaginationType": "bootstrap",
     "columnDefs": [
-        { "visible": false, "targets": [1,2,5]},
+        { "visible": false, "targets": [1, 2, 5] },
         {
             "className": "text-center",
             "width": "50px",
@@ -55,8 +52,13 @@ var table = $('#tblresult').DataTable({
             },
             "className": "text-center",
             "orderable": false,
-            "targets": [6,7,8,9,10,11,12]
+            "targets": [6, 7, 8, 9, 10, 11, 12]
         },
+        {
+            "className": "text-center",
+            "width": "50px",
+            "targets": 13
+        }
     ],
     "language": {
         "sLengthMenu": "Số bản ghi hiển thị trên 1 trang _MENU_ ",
@@ -100,17 +102,23 @@ $("#btnAdd").click(function () {
     $('#Birthday').val(null);
     $('#Address').val(null);
     $('#Status').val(0);
-    $("#editmodal").modal('show');
+    $("#createmodal").modal('show');
 });
 
 $("#tblresult").on("click", ".btnEdit", function () {
     var obj = $('#tblresult').DataTable().row($(this).parents('tr')).data();
-    $('#u_id').val(obj._id);
-    $('#u_tenGiaoVien').val(obj.tenGiaoVien);
-    $('#u_ngaySinh').val(obj.ngaySinh);
-    $('#u_diaChi').val(obj.diaChi);
-    $('#Status').val(obj.Status);
-    $('#IDp').val(obj.ID);
+    console.log(obj);
+
+    $('#IDu').val(obj._id);
+    $('#hoHS').html(obj.HocSinh_idHocSinh.hoHS);
+    $('#tenHS').html(obj.HocSinh_idHocSinh.tenHS);
+    $('#diem15_lan1').val(obj.diem15_lan1 == -1 ? 0 : obj.diem15_lan1);
+    $('#diem15_lan2').val(obj.diem15_lan2 == -1 ? 0 : obj.diem15_lan2);
+    $('#diem15_lan3').val(obj.diem15_lan3 == -1 ? 0 : obj.diem15_lan3);
+    $('#diem1tiet_lan1').val(obj.diem1tiet_lan1 == -1 ? 0 : obj.diem1tiet_lan1);
+    $('#diem1tiet_lan2').val(obj.diem1tiet_lan2 == -1 ? 0 : obj.diem1tiet_lan2);
+    $('#diem1tiet_lan3').val(obj.diem1tiet_lan3 == -1 ? 0 : obj.diem1tiet_lan3);
+    $('#diemThiHK').val(obj.diemThiHK == -1 ? 0 : obj.diemThiHK);
     $("#updatemodal").modal('show');
 });
 
@@ -144,11 +152,11 @@ $('#frmPost').submit((e) => {
 
 // update
 $('#frmPut').submit((e) => {
-    var id = $('#u_id').val();
+    var id = $('#IDu').val();
     e.preventDefault();
     let form = $('#frmPut').serializeArray();
     $.ajax({
-        url: "/qld/"+id+"/update",
+        url: "/qld/" + id + "/update",
         method: "PUT",
         data: form,
         dataType: 'json'
@@ -157,7 +165,7 @@ $('#frmPut').submit((e) => {
             if (data.err === 0) {
                 $('#tblresult').DataTable().ajax.reload();
                 $("#updatemodal").modal('hide');
-                toastr["success"]("Thêm m bản ghi thành công! ");
+                toastr["success"]("Thêm bản ghi thành công! ");
             }
             else {
                 toastr["error"]("Xảy ra lỗi, " + data.msg);
@@ -171,7 +179,7 @@ $('#frmPut').submit((e) => {
 });
 
 //---- remove 
-$("#tblresult").on("click", ".btnDelete", function () {
+$("#btnAdd").on("click", function () {
     var obj = $('#tblresult').DataTable().row($(this).parents('tr')).data();
     $("#ID").val(obj._id);
     $('#appConfirm h4').html("Xoá Giáo Viên");
@@ -186,7 +194,7 @@ $('#frmDelete').submit((e) => {
     $("#btnSubmitConfirm").attr("disabled", true);
     var id = $('#ID').val();
     $.ajax({
-        url: "/qld/"+id+"/remove",
+        url: "/qld/" + id + "/remove",
         method: "delete",
     })
         .done((data) => {
@@ -205,7 +213,41 @@ $('#frmDelete').submit((e) => {
         });
     $("#btnSubmitConfirm").removeAttr("disabled");
 });
+$('#btnAutoCreat').click(() => {
+    var lop = $('#fillerL').val();
+    var MonHoc = $('#fillerMH').val();
 
+    if (lop != 1 && MonHoc != 1)
+    {
+        $.ajax({
+            url: "/qld/autoCreate",
+            method: "post",
+            data: {
+                Lop_idLop: $('#fillerL').val(),
+                MonHoc_idMonHoc: $('#fillerMH').val()
+            }
+        })
+        .done((data) => {
+            if (data.err === 0) {
+                $('#tblresult').DataTable().ajax.reload();
+                $("#appConfirm").modal('hide');
+                toastr["success"]("Xóa bản ghi thành công! ");
+            }
+            else {
+                toastr["error"]("Xảy ra lỗi, " + data.msg);
+            }
+        })
+        .fail(() => {
+            $("#appConfirm").modal('hide');
+            toastr["error"]("Xảy ra lỗi, vui lòng tải lại trang!");
+        });
+    }
+    else
+    {
+        toastr["warning"]("Vui lòng chọn môn học và lớp học");
+    }
+        
+})
 toastr.options = {
     "closeButton": true,
     "debug": false,

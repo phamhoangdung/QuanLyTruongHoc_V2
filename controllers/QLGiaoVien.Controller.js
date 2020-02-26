@@ -25,7 +25,6 @@ function create(req, res) {
         tenGiaoVien: req.body.tenGiaoVien,
         NgaySinh: req.body.NgaySinh,
         DiaChi: req.body.DiaChi,
-
     });
     GiaoVien.save((err) => {
         if (err) {

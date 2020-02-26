@@ -81,17 +81,24 @@ var table = $('#tblresult').DataTable({
             "visible": false,
             "targets": [1,7]
         },
+        // {
+        //     "name":"ngaySinhHSs",
+        //     "orderable": false,
+        //     "type":   'datetime',
+        //     "def":    function (data) { console.log(data);
+        //      return new Date(); },
+        //     "format": 'dd/MM/YYYY',
+        //     "fieldInfo": 'Verbose date format',
+        //     "keyInput": false,
+        //     "targets": 4
+        // },
         {
-            "name":"ngaySinhHS",
             "orderable": false,
-            "type":   'datetime',
-            "def":    function () { return new Date(); },
-            "format": 'dd/MM/YYYY',
-            "fieldInfo": 'Verbose date format',
-            "keyInput": false,
-            "targets": 4
-        },
-
+            "className": "text-center",
+            targets:4, 
+            render:function(data){
+            return moment(data).format('DD-MM-YYYY');
+          }}
     ],
     "language": {
         "sLengthMenu": "Số bản ghi hiển thị trên 1 trang _MENU_ ",
@@ -137,6 +144,7 @@ $("#btnAdd").click(function () {
 
 $("#tblresult").on("click", ".btnEdit", function () {
     var obj = $('#tblresult').DataTable().row($(this).parents('tr')).data();
+    console.log(obj.ngaySinhHS);
     $('#IDu').val(obj._id);
     $('#u_hoHS').val(obj.hoHS);
     $('#u_tenHS').val(obj.tenHS);
@@ -235,6 +243,7 @@ $('#frmDelete').submit((e) => {
         });
     $("#btnSubmitConfirm").removeAttr("disabled");
 });
+
 
 toastr.options = {
     "closeButton": true,

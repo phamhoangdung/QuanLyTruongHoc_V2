@@ -77,8 +77,8 @@
                         </div>
                         <div class="card-footer">
                             <div class="col-12">
-                                <button type="button" class="btn btn-primary" id="btnAdd" name="btnAdd"><i
-                                        class="fa fa-plus"></i>&nbsp; Tạo bảng điểm</button>
+                                <button type="button" class="btn btn-primary" id="btnAutoCreat" name="btnAdd">
+                                    <i class="fa fa-plus"></i>&nbsp; Tạo bảng điểm</button>
                             </div>
                         </div>
                     </div>
@@ -97,8 +97,7 @@
     <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
-
-    <!-- The Modal appConfirm-->
+    <!-- The modal create -->
     <div class="modal fade" id="appConfirm">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -112,78 +111,23 @@
                 <!-- Modal body -->
                 <div class="modal-body">
                     <h5></h5>
-                    <form method="delete" class="form-horizontal" id="frmDelete">
-                        <input type="hidden" id="ID" name="ID">
+                    <form method="post" class="form-horizontal" id="frmCreate">
+                        <input type="hidden" id="Lop" name="Lop_idLop">
+                        <input type="hidden" id="MonHoc" name="MonHoc_idMonHoc">
+                        
                     </form>
                 </div>
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
-                    <button type="submit" class="btn btn-success" form="frmDelete" id="btnSubmitConfirm">Xóa</button>
+                    <button type="submit" class="btn btn-success" form="frmDelete" id="btnSubmitConfirm">Đồng ý</button>
                 </div>
 
             </div>
         </div>
     </div>
-    <!-- The Modal create -->
-    <div class="modal fade" id="createmodal">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Thêm mới học sinh</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <form id="frmPost" method="post">
-                        <div class="card-body">
-                            <div class="row form-group">
-                                <div class="col-md-6">
-                                    <label for="c_hoHS">Họ</label>
-                                    <input type="text" class="form-control" id="c_hoHS" name="hoHS" placeholder="Họ...">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="c_tenHS">Tên</label>
-                                    <input type="text" class="form-control" id="c_tenHS" name="tenHS"
-                                        placeholder="Tên...">
-                                </div>
-                            </div>
-                            <div class="row form-group">
-                                <div class="col-sm-6">
-                                    <label for="c_ngaySinhHS">Ngày sinh</label>
-                                    <input type='date' id='c_ngaySinhHS' name="ngaySinhHS" class="form-control"
-                                        placeholder="Ngày sinh" />
-                                </div>
-                                <div class="col-sm-6">
-                                    <label for="c_diaChiHS">Địa chỉ</label>
-                                    <input type='text' id='c_diaChiHS' name="diaChiHS" class="form-control"
-                                        placeholder="Địa chỉ" />
-                                </div>
-                            </div>
-                            <div class="row form-group">
-                                <div class="col-md-6">
-                                    <label for="c_gioiTinhHS">Chọn giới tính</label>
-                                    <select id="c_gioiTinhHS" class="form-control" name="gioiTinhHS">
-                                        <option value=1>Nam</option>
-                                        <option value=0>Nữ</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-
-                </div>
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success" form="frmPost" id="btnSubmitDetail">Thêm mới</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
+    <!-- The modal create -->
 
     <!-- The Modal update -->
     <div class="modal fade" id="updatemodal">
@@ -191,7 +135,7 @@
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Cập nhật học sinh</h4>
+                    <h4 class="modal-title">Quản lý điểm</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <!-- Modal body -->
@@ -202,35 +146,63 @@
                             <div class="row form-group">
                                 <div class="col-md-6">
                                     <label for="hoHS">Họ</label>
-                                    <input type="text" class="form-control" id="u_hoHS" name="hoHS" placeholder="Họ...">
+                                    <p id="hoHS"></p>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="tenHS">Tên</label>
-                                    <input type="text" class="form-control" id="u_tenHS" name="tenHS"
-                                        placeholder="Tên...">
+                                    <p id="tenHS"></p>
                                 </div>
                             </div>
-                            <div class="row form-group">
-                                <div class="col-sm-6">
-                                    <label for="ngaySinhHS">Ngày sinh</label>
-                                    <input type='date' id='u_ngaySinhHS' name="ngaySinhHS" class="form-control"
-                                        placeholder="Ngày sinh" />
+                            <fieldset>
+                                <div class="row form-group panel panel-info">
+                                    <legend>Điểm 15':</legend>
+                                    <div class="col-sm-4">
+                                        <label for="diem15_lan1">Lần 1</label>
+                                        <input type="number" step="0.01" min="0" max="10" id='diem15_lan1' name="diem15_lan1" class="form-control"
+                                            placeholder="0.0" />
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="diem15_lan2">Lần 2</label>
+                                        <input type="number" step="0.01" min="0" max="10" id='diem15_lan2' name="diem15_lan2" class="form-control"
+                                            placeholder="0.0" />
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="diem15_lan3">Lần 3</label>
+                                        <input type="number" step="0.01" min="0" max="10" id='diem15_lan3' name="diem15_lan3" class="form-control"
+                                            placeholder="0.0" />
+                                    </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <label for="diaChiHS">Địa chỉ</label>
-                                    <input type='text' id='u_diaChiHS' name="diaChiHS" class="form-control"
-                                        placeholder="Địa chỉ" />
+                            </fieldset>
+                            <fieldset>
+                                <div class="row form-group panel panel-info">
+                                    <legend>Điểm 1 tiết:</legend>
+                                    <div class="col-sm-4">
+                                        <label for="diem1tiet_lan1">Lần 1</label>
+                                        <input type="number" step="0.01" min="0" max="10" id='diem1tiet_lan1' name="diem1tiet_lan1" class="form-control"
+                                            placeholder="0.0" />
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="diem1tiet_lan2">Lần 2</label>
+                                        <input type="number" step="0.01" min="0" max="10" id='diem1tiet_lan2' name="diem1tiet_lan2" class="form-control"
+                                            placeholder="0.0" />
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="diem1tiet_lan3">Lần 3</label>
+                                        <input type="number" step="0.01" min="0" max="10" id='diem1tiet_lan3' name="diem1tiet_lan3" class="form-control"
+                                            placeholder="0.0" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row form-group">
-                                <div class="col-md-6">
-                                    <label for="gioiTinhHS">Chọn giới tính</label>
-                                    <select id="u_gioiTinhHS" class="form-control" name="gioiTinhHS">
-                                        <option value=1>Nam</option>
-                                        <option value=0>Nữ</option>
-                                    </select>
+                            </fieldset>
+                            <fieldset>
+                                <div class="row form-group panel panel-info">
+                                    <legend>Điểm thi học kỳ:</legend>
+                                    <div class="col-sm-4">
+                                        <label for="diemThiHK">Điểm thi</label>
+                                        <input type="number" step="0.01" min="0" max="10" id='diemThiHK' name="diemThiHK" class="form-control"
+                                            placeholder="0.0" />
+                                    </div>
                                 </div>
-                            </div>
+                            </fieldset>
                         </div>
                     </form>
                 </div>
@@ -242,9 +214,6 @@
             </div>
         </div>
     </div>
-
-
-
     <!-- jQuery -->
     <% include layout/_defaultScript %>
     <script src="MyJavaScript/QuanLyDiem.js"></script>

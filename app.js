@@ -21,6 +21,8 @@ var QLHocKy = require('./routes/Admin/QLHocKy.Route');
 var QLGiaoVien = require('./routes/Admin/QLGiaoVien.Route');
 var QLGiaoVienDayLop = require('./routes/Admin/QLGiaoVienDayLop.Route');
 var QLDiem = require('./routes/Admin/QLDiem.Route');
+var acl = require('./config/ACL.Config');
+
 //===================admin=================
 
 
@@ -89,16 +91,17 @@ require('./routes/Admin/Auth.Route')(app, passport);
 
 
 //===================admin=================
-app.use('/admin', isLoggedIn, indexadmin);
-app.use('/qlhs', isLoggedIn, QLHocSinh);
-app.use('/qllh', isLoggedIn, QLLopHoc);
-app.use('/qltk', isLoggedIn, QLTaiKhoan);
-app.use('/qlmh', isLoggedIn, QLMonHoc);
-app.use('/qlhk', isLoggedIn, QLHocKy);
-app.use('/qlgv', isLoggedIn, QLGiaoVien);
-app.use('/qlgvdl', isLoggedIn, QLGiaoVienDayLop);
-app.use('/qld',isLoggedIn,QLDiem);
+app.use('/admin', isLoggedIn, acl.middleware(1, getusername), indexadmin);
+app.use('/qlhs', isLoggedIn, acl.middleware(1, getusername), QLHocSinh);
+app.use('/qllh', isLoggedIn, acl.middleware(1, getusername), QLLopHoc);
+app.use('/qltk', isLoggedIn, acl.middleware(1, getusername), QLTaiKhoan);
+app.use('/qlmh', isLoggedIn, acl.middleware(1, getusername), QLMonHoc);
+app.use('/qlhk', isLoggedIn, acl.middleware(1, getusername), QLHocKy);
+app.use('/qlgv', isLoggedIn, acl.middleware(1, getusername), QLGiaoVien);
+app.use('/qlgvdl', isLoggedIn, acl.middleware(1, getusername), QLGiaoVienDayLop);
+app.use('/qld', isLoggedIn, QLDiem);
 //==================!admin=================
+
 function isLoggedIn(req, res, next) {
   // console.log(req.isAuthenticated());
   // console.log(req.user);
@@ -106,7 +109,10 @@ function isLoggedIn(req, res, next) {
     return next();
   res.redirect('/login');
 }
-
+function getusername(req) {
+  console.log(req.user.username);
+  return req.user.username; // (yaoming) just for fun
+}
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

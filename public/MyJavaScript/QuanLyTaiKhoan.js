@@ -22,9 +22,12 @@ $('#tblresult').DataTable({
         {
             "className": "text-center",
             "width": "50px",
+            "visible": true,
             "orderable": false,
             "targets": [0,7]
         },
+        { "visible": false, "targets": [1,3]},
+
     ],
     "language": {
         "sLengthMenu": "Số bản ghi hiển thị trên 1 trang _MENU_ ",

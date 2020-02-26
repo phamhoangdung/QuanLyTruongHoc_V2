@@ -3,7 +3,7 @@ const schemaOptions = {
     collection: 'DiemCuaMonHoc', timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
 };
 var DiemCuaMonHoc = mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
+    // _id: mongoose.Schema.Types.ObjectId,
     Diem_idDiem: { type: mongoose.Schema.Types.ObjectId, ref: 'Diem' },
     MonHoc_idMonHoc: { type: mongoose.Schema.Types.ObjectId, ref: 'MonHoc' },
 }, schemaOptions)

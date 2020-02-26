@@ -20,6 +20,6 @@ router.delete('/:id/remove', DiemController.remove);
 
 router.post('/create', DiemController.create);
 
-router.post('/lsdvshs', DiemController.ListDiemvsHocSinh);
+router.post('/autocreate', DiemController.autoCreate);
 
 module.exports = router;

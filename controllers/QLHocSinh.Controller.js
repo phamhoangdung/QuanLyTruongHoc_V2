@@ -62,11 +62,18 @@ function Create(req, res) {
         Lop_idLop: req.body.Lop_idLop,
         // TaiKhoan_idTaiKhoan: req.body.TaiKhoan_idTaiKhoan,
     });
+    console.log(HocSinh);
+
     HocSinh.save((err) => {
+        
         if (err) {
+            console.log(err);
+            
             res.json({ err: 1, msg: err });
+            return;
         }
         res.json({ err: 0, msg: 'HocSinh insert successfully' });
+        return;
     })
 }
 

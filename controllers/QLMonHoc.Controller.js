@@ -28,7 +28,6 @@ async function selectAll(req, res) {
         res.json({ "recordsTotal": data.length, "recordsFiltered": total, "data": data, "draw": req.body.draw });
     }
     catch (err) {
-
         res.json({ err: 1, msg: err });
     }
 }
