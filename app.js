@@ -41,6 +41,8 @@ var QLDiemapi = require('./routes/api/QLDiem.Route');
 //===================!api=================
 
 // view engine setup
+// app.use(expressLayouts);
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -48,7 +50,6 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(expressLayouts);
 app.use(express.static(path.join(__dirname, 'public')));
 
 
