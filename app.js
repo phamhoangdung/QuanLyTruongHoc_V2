@@ -26,7 +26,7 @@ var acl = require('./config/ACL.Config');
 //===================!admin=================
 
 //===================api=================
-// var indexapi = require('./routes/api/Index.Route');
+var indexapi = require('./routes/api/Index.Route');
 var QLHocSinhapi = require('./routes/api/QLHocSinh.Route');
 var QLLopHocapi = require('./routes/api/QLLopHoc.Route');
 var QLTaiKhoanapi = require('./routes/api/QLTaiKhoan.Route');
@@ -115,7 +115,7 @@ app.use('/qld', isLoggedIn, QLDiem);
 //==================!admin=================
 
 //===================api=================
-// app.use('/api', isLoggedIn,indexapi);
+app.use('/api', isLoggedIn,indexapi);
 app.use('/api/qlhs', isLoggedIn,QLHocSinhapi);
 app.use('/api/qllh', isLoggedIn,QLLopHocapi);
 app.use('/api/qltk', isLoggedIn,QLTaiKhoanapi);
