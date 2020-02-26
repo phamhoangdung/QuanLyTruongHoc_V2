@@ -23,8 +23,19 @@ var QLGiaoVienDayLop = require('./routes/Admin/QLGiaoVienDayLop.Route');
 var QLDiem = require('./routes/Admin/QLDiem.Route');
 var acl = require('./config/ACL.Config');
 
-//===================admin=================
+//===================!admin=================
 
+//===================api=================
+var indexapi = require('./routes/api/index');
+var QLHocSinhapi = require('./routes/api/QLHocSinh.Route');
+var QLLopHocapi = require('./routes/api/QLLopHoc.Route');
+var QLTaiKhoanapi = require('./routes/api/QLTaiKhoan.Route');
+var QLMonHocapi = require('./routes/api/QLMonHoc.Route');
+var QLHocKyapi = require('./routes/api/QLHocKy.Route');
+var QLGiaoVienapi = require('./routes/api/QLGiaoVien.Route');
+var QLGiaoVienDayLopapi = require('./routes/api/QLGiaoVienDayLop.Route');
+var QLDiemapi = require('./routes/api/QLDiem.Route');
+//===================!api=================
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -40,6 +51,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 mongoose.connect('mongodb://localhost/QuanLyTruongHoc', { useNewUrlParser: true, useUnifiedTopology: true });
+//mongoose.connect('mongodb+srv://<username>:<password>@cluster0-urj1l.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
 var MongoStore = require('connect-mongo')(session);
 var db = mongoose.connection;
 
@@ -100,6 +112,18 @@ app.use('/qlhk', isLoggedIn, acl.middleware(1, getusername), QLHocKy);
 app.use('/qlgv', isLoggedIn, acl.middleware(1, getusername), QLGiaoVien);
 app.use('/qlgvdl', isLoggedIn, acl.middleware(1, getusername), QLGiaoVienDayLop);
 app.use('/qld', isLoggedIn, QLDiem);
+//==================!admin=================
+
+//===================admin=================
+app.use('/api', isLoggedIn,indexapi);
+app.use('/api/qlhs', isLoggedIn,QLHocSinhapi);
+app.use('/api/qllh', isLoggedIn,QLLopHocapi);
+app.use('/api/qltk', isLoggedIn,QLTaiKhoanapi);
+app.use('/api/qlmh', isLoggedIn,QLMonHocapi);
+app.use('/api/qlhk', isLoggedIn,QLHocKyapi);
+app.use('/api/qlgv', isLoggedIn,QLGiaoVienapi);
+app.use('/api/qlgvdl', isLoggedIn,QLGiaoVienDayLopapi);
+app.use('/api/qld', isLoggedIn, QLDiem);
 //==================!admin=================
 
 function isLoggedIn(req, res, next) {
