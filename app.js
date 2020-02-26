@@ -1,5 +1,7 @@
 var createError = require('http-errors');
 var express = require('express');
+var fs = require('fs');
+var expressLayouts = require('express-ejs-layouts');
 var path = require('path');
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser');
@@ -11,6 +13,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const mongoose = require('mongoose');
 var app = express();
+
 //===================admin=================
 var indexadmin = require('./routes/Admin/Index.Route');
 var QLHocSinh = require('./routes/Admin/QLHocSinh.Route');
@@ -45,6 +48,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(expressLayouts);
 app.use(express.static(path.join(__dirname, 'public')));
 
 
