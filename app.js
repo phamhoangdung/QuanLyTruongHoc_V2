@@ -50,8 +50,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-mongoose.connect('mongodb://localhost/QuanLyTruongHoc', { useNewUrlParser: true, useUnifiedTopology: true });
-//mongoose.connect('mongodb+srv://<username>:<password>@cluster0-urj1l.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
+//mongoose.connect('mongodb://localhost/QuanLyTruongHoc', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://ahtuser:Admin1324@quanlytruonghoc-urj1l.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+.then((res)=>{
+  console.log(res);
+}).catch((err)=>{
+  console.log(err);
+});
 var MongoStore = require('connect-mongo')(session);
 var db = mongoose.connection;
 
@@ -123,7 +128,7 @@ app.use('/api/qlmh', isLoggedIn,QLMonHocapi);
 app.use('/api/qlhk', isLoggedIn,QLHocKyapi);
 app.use('/api/qlgv', isLoggedIn,QLGiaoVienapi);
 app.use('/api/qlgvdl', isLoggedIn,QLGiaoVienDayLopapi);
-app.use('/api/qld', isLoggedIn, QLDiem);
+app.use('/api/qld', isLoggedIn, QLDiemapi);
 //==================!admin=================
 
 function isLoggedIn(req, res, next) {
