@@ -125,15 +125,15 @@ app.use('/qld', isLoggedIn, QLDiem);
 //==================!admin=================
 
 //===================api=================
-app.use('/api', isLoggedIn,indexapi);
-app.use('/api/qlhs', isLoggedIn,QLHocSinhapi);
-app.use('/api/qllh', isLoggedIn,QLLopHocapi);
-app.use('/api/qltk', isLoggedIn,QLTaiKhoanapi);
-app.use('/api/qlmh', isLoggedIn,QLMonHocapi);
-app.use('/api/qlhk', isLoggedIn,QLHocKyapi);
-app.use('/api/qlgv', isLoggedIn,QLGiaoVienapi);
-app.use('/api/qlgvdl', isLoggedIn,QLGiaoVienDayLopapi);
-app.use('/api/qld', isLoggedIn, QLDiemapi);
+app.use('/api',indexapi);
+app.use('/api/qlhs',QLHocSinhapi);
+app.use('/api/qllh', QLLopHocapi);
+app.use('/api/qltk', QLTaiKhoanapi);
+app.use('/api/qlmh', QLMonHocapi);
+app.use('/api/qlhk', QLHocKyapi);
+app.use('/api/qlgv', QLGiaoVienapi);
+app.use('/api/qlgvdl', QLGiaoVienDayLopapi);
+app.use('/api/qld',  QLDiemapi);
 //==================!admin=================
 
 function isLoggedIn(req, res, next) {
