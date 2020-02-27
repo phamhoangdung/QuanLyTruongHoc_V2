@@ -39,7 +39,7 @@
                             <div class="row">
                                 <div class="form-group col-md-2">
                                     <label for="my-select">Lọc theo lớp học</label>
-                                    <select id="Lop" class="form-control">
+                                    <select id="fillerL" class="form-control">
                                         <option value=1>Chọn</option>
                                         <% Lop.map((element,index)=>{ %>
                                         <option value="<%= element._id %>"><%= element.tenLop%></option>
@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="my-select">Lọc theo Môn học</label>
-                                    <select id="MonHoc" class="form-control">
+                                    <select id="fillerMH" class="form-control">
                                         <option value=1>Chọn</option>
                                         <% MonHoc.map((element,index)=>{ %>
                                         <option value="<%= element._id %>"><%= element.tenMonHoc%></option>
@@ -78,7 +78,7 @@
                         <div class="card-footer">
                             <div class="col-12">
                                 <button type="button" class="btn btn-primary" id="btnAdd" name="btnAdd"><i
-                                        class="fa fa-plus"></i>&nbsp; Thêm</button>
+                                        class="fa fa-plus"></i>&nbsp; Tạo bảng điểm</button>
                             </div>
                         </div>
                     </div>

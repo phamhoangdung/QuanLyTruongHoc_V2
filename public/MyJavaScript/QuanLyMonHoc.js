@@ -100,7 +100,7 @@ $('#frmPost').submit((e) => {
 
 $("#tblresult").on("click", ".btnEdit", function () {
     var obj = $('#tblresult').DataTable().row($(this).parents('tr')).data();
-    $('#u_id').val(obj.id);
+    $('#u_id').val(obj._id);
     $('#u_tenMonHoc').val(obj.tenMonHoc);
     $('#u_soTiet').val(obj.soTiet);
     $('#u_HocKy_idHocKy').val(obj.HocKy_idHocKy._id);
@@ -113,7 +113,7 @@ $('#frmPut').submit((e) => {
     e.preventDefault();
     let form = $('#frmPut').serializeArray();
     $.ajax({
-        url: "/qlmh"+id+"/update",
+        url: "/qlmh/"+id+"/update",
         method: "PUT",
         data: form,
         dataType: 'json'

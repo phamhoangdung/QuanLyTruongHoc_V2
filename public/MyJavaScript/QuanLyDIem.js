@@ -1,3 +1,21 @@
+$('#fillerL').on('change', function() {
+    if($('#fillerMH').val() != 1 && $('#fillerL').val() != 1)
+    {
+        console.log($('#fillerMH').val());
+        console.log($('#fillerMH').val());
+        
+        table.clear();
+        table.ajax.reload();
+    }
+});
+$('#fillerMH').on('change', function() {
+    if($('#fillerMH').val() != 1 && $('#fillerL').val() != 1)
+    {
+        table.clear();
+        table.ajax.reload();
+    }
+});
+
 var table = $('#tblresult').DataTable({
     "processing": true,
     "serverSide": true,
@@ -6,6 +24,10 @@ var table = $('#tblresult').DataTable({
         "url": "/qld",
         "type": "POST",
         "dataType": "json",
+        "data": {
+            Lop_idLop : function(){return $('#fillerL').find(":selected").val()},
+            MonHoc_idMonHoc : function(){return $('#fillerMH').find(":selected").val()}
+        },
         // 'beforeSend': function (request) {
         //     request.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
         // },
