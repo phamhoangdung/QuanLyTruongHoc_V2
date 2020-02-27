@@ -13,7 +13,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const mongoose = require('mongoose');
 var app = express();
-
+var cors = require('cors')
 //===================admin=================
 var indexadmin = require('./routes/Admin/Index.Route');
 var QLHocSinh = require('./routes/Admin/QLHocSinh.Route');
@@ -42,6 +42,7 @@ var QLDiemapi = require('./routes/api/QLDiem.Route');
 
 // view engine setup
 // app.use(expressLayouts);
+app.use(cors())
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
