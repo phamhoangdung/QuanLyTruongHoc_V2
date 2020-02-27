@@ -48,7 +48,8 @@ async function SelectByID(req, res) {
         res.json({ "recordsTotal": dataresult.length, "recordsFiltered": await HocSinhModel.count(), "data": dataresult, "draw": req.body.draw });
     }
     catch (err) {
-        throw (err);
+        res.json({ err: 1, msg: err });
+        return;
     }
 }
 

@@ -6,6 +6,78 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Wellcome to my world</h1>
+    <div class="container-fluid">
+        <p>Base url:<strong>https://aht-edu.herokuapp.com/api</strong></p>
+        <hr style="border: 2px solid red;">
+        <div>
+            <h2><strong>API QUẢN LÝ TÀI KHOẢN</strong></h2>
+            <p><strong>THÊM</strong></p>
+            <p>uri:/qltk</p>
+            <p>method: post</p>
+            <p>params: {start:0, length:10}</p>
+            <hr style="border: 1px dashed red;">
+            <p><strong>TẠO MỚI</strong></p>
+            <p>uri:/qltk/create</p>
+            <p>method: post</p>
+            <p>params: {username:'string', password:'string',role:1}</p>
+            <hr style="border: 1px dashed red;">
+            <p><strong>SỬA</strong></p>
+            <p>uri:/qltk/:id/update</p>
+            <p>method: put</p>
+            <p>params: {username:'string', password:'string',role:1}</p>
+            <hr style="border: 1px dashed red;">
+            <p><strong>XOÁ</strong></p>
+            <p>uri:/qltk/:id/delete</p>
+            <p>method: delete</p>
+            <p>params: {}</p>
+        </div>
+        <hr style="border: 2px solid red;">
+        <div>
+            <h2><strong>API QUẢN LÝ LỚP HỌC</strong></h2>
+            <p><strong>THÊM</strong></p>
+            <p>uri:/qllh</p>
+            <p>method: post</p>
+            <p>params: {start:0, length:10}</p>
+            <hr style="border: 1px dashed red;">
+            <p><strong>TẠO MỚI</strong></p>
+            <p>uri:/qllh/create</p>
+            <p>method: post</p>
+            <p>params: {tenLop:'string', viTri:'string'}</p>
+            <hr style="border: 1px dashed red;">
+            <p><strong>SỬA</strong></p>
+            <p>uri:/qllh/:id/update</p>
+            <p>method: put</p>
+            <p>params: {tenLop:'string', viTri:'string'}</p>
+            <hr style="border: 1px dashed red;">
+            <p><strong>XOÁ</strong></p>
+            <p>uri:/qllh/:id/delete</p>
+            <p>method: delete</p>
+            <p>params: {}</p>
+        </div>
+        <hr style="border: 2px solid red;">
+        <div>
+            <h2><strong>API QUẢN LÝ HỌC SINH</strong></h2>
+            <p><strong>THÊM</strong></p>
+            <p>uri:/qlhs</p>
+            <p>method: post</p>
+            <p>params: {start:0, length:10, classFiller:<"id lớp học: (nếu null => chọn tất cả)">}</p>
+            <hr style="border: 1px dashed red;">
+            <p><strong>TẠO MỚI</strong></p>
+            <p>uri:/qlhs/create</p>
+            <p>method: post</p>
+            <p>params: {tenHS:'string', hoHS:'string', ngaySinhHS:Date, diaChiHS:'string', gioiTinhHS: [0:nữ, 1:nam], Lop_idLop: (id lớp học)</id>}</p>
+            <hr style="border: 1px dashed red;">
+            <p><strong>SỬA</strong></p>
+            <p>uri:/qlhs/:id/update</p>
+            <p>method: put</p>
+            <p>params: {tenHS:'string', hoHS:'string', ngaySinhHS:Date, diaChiHS:'string', gioiTinhHS: [0:nữ, 1:nam], Lop_idLop: (id lớp học)</p>
+            <hr style="border: 1px dashed red;">
+            <p><strong>XOÁ</strong></p>
+            <p>uri:/qlhs/:id/delete</p>
+            <p>method: delete</p>
+            <p>params: {}</p>
+        </div>
+    </div>
+    
 </body>
 </html>
