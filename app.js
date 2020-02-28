@@ -59,7 +59,7 @@ app.use('/users', usersRouter);
 //mongoose.connect('mongodb://localhost/QuanLyTruongHoc', { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connect('mongodb+srv://ahtuser:Admin1324@quanlytruonghoc-urj1l.mongodb.net/QuanLyTruongHoc?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
 .then((res)=>{
-  console.log(res);
+  console.log("connect success");
 }).catch((err)=>{
   console.log(err);
 });
