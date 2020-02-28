@@ -12,8 +12,7 @@ var table = $('#tblresult').DataTable({
         //"cache":false,
         "dataSrc": function (json) {
             json.data.forEach(element => {
-                element.Method = `<a class=" my-method-button btnEdit fa-hover"    title="Sửa tài khoản" ><i class="fa fa-edit"></i></a> &nbsp
-                                <a class=" my-method-button btnDelete fa-hover"    title="Xóa tài khoản" ><i class="fa fa-trash"></i></a>`;
+                element.Method = `<a class=" my-method-button btnEdit fa-hover"    title="Sửa tài khoản" ><i class="fa fa-edit"></i></a> &nbsp`;
             });
             return json.data;
         },
@@ -25,8 +24,19 @@ var table = $('#tblresult').DataTable({
             "className": "text-center",
             "width": "50px",
             "orderable": false,
-            "targets": 0
+            "targets": [0,5]
         },
+        {
+            "render": (data, type, row) => {
+                return data == 1 ? '<i class="fa fa-toggle-on" title="Hoạt động" style="color:green"></i>' : '<i class="fa fa-toggle-off" title="Không hoạt động"></i>'
+            },
+            "orderable": false,
+            "width": "50px",
+            "targets": 4
+         },
+         {
+             
+         }
     ],
     "language": {
         "sLengthMenu": "Số bản ghi hiển thị trên 1 trang _MENU_ ",
@@ -44,6 +54,7 @@ var table = $('#tblresult').DataTable({
         { "data": '_id' },
         { "data": 'tenLop' },
         { "data": 'viTri' },
+        { "data": 'trangThai' },
         { "data": 'Method' }
     ],
     bAutoWidth: false,
@@ -57,16 +68,9 @@ var table = $('#tblresult').DataTable({
 
 $("#btnAdd").click(function () {
     $('#IDp').val(-1);
-    $('#FirstName').val(null);
-    $('#LastName').val(null);
-    $('#Birthday').val(null);
-    $('#Address').val(null);
-    $('#ID_Class').val(1);
-    $('#ID_subject').val(1);
-    $('#HS1').val(null);
-    $('#HS2').val(null);
-    $('#HS3').val(null);
-    $('#Status').val(0);
+    $('#tenLop').val(null);
+    $('#viTri').val(null);
+    $('#trangThai').val(1);
     $("#editmodal").modal('show');
 });
 
@@ -102,6 +106,7 @@ $("#tblresult").on("click", ".btnEdit", function () {
     $('#u_id').val(obj._id);
     $('#u_tenLop').val(obj.tenLop);
     $('#u_viTri').val(obj.viTri);
+    $('#u_trangThai').val(obj.trangThai);
     $("#updatemodal").modal('show');
 });
 

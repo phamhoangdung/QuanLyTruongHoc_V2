@@ -7,7 +7,7 @@ router.route('/').post(LopHoc.selectAll);
 
 router.put('/:id/update', LopHoc.update);
 
-router.delete('/:id/remove', LopHoc.remove);
+// router.delete('/:id/remove', LopHoc.remove);
 
 router.post('/create', LopHoc.create);
 

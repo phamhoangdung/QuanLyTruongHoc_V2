@@ -5,7 +5,8 @@ const schemaOptions = {
 var Lop = mongoose.Schema({
     // _id: mongoose.Schema.Types.ObjectId,
     tenLop: String,
-    viTri: String
+    viTri: String,
+    trangThai: Number
 },schemaOptions)
 
 module.exports = mongoose.model("Lop", Lop);

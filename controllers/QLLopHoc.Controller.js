@@ -21,7 +21,8 @@ async function selectAll(req, res) {
 async function create(req, res) {
     let Lop = new LopModel({
         tenLop: req.body.tenLop,
-        viTri: req.body.viTri
+        viTri: req.body.viTri,
+        trangThai: req.body.trangThai
     });
     Lop.save((err) => {
         if (err)

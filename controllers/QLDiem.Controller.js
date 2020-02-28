@@ -62,7 +62,6 @@ var checkExist = function (idhs, idmh) {
         else {
             reject(-1);
         }
-
     })
 }
 
@@ -89,17 +88,13 @@ async function autoCreate(req, res) {
                 diemThiHK: -1,
             }).save((err, result) => {
                 console.log(result);
-                res.json({ err: 0, msg: "Diem create successfully" });
-                return;
             })
             //)
         }
-        else {
-            res.json({ err: 1, msg: "Đã tồn tại" });
-            return;
-        }
+       
     })
-
+    res.json({ err: 0, msg: "Diem create successfully" });
+    return;
     // res.json(Diems);
     // return;
 
