@@ -6,11 +6,11 @@
   <div class="wrapper">
 
     <!-- Navbar -->
-    <% include(Navbar.ejs) %>
+    <% include layout/Navbar %>
     <!-- /.navbar -->
 
     <!-- Main Sidebar Container -->
-    <% include(MainSidebar.ejs) %>
+    <%include layout/MainSidebar %>
 
     <!-- Content Wrapper. Contains page content -->
 
@@ -45,7 +45,7 @@
 
   <!-- /.content-wrapper -->
 
-  <% include(Footer.ejs) %>
+  <% include layout/Footer %>
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
@@ -53,7 +53,7 @@
   <!-- /.control-sidebar -->
   </div>
   <!-- ./wrapper -->
-  <% include(DefaultScript.ejs) %>
+  <% include layout/DefaultScript %>
   <script src="javascripts/_User.js"></script>
 
 </body>
