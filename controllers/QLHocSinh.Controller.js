@@ -90,8 +90,8 @@ function Update(req, res) {
 
 function Remove(req, res) {
     HocSinhModel.findByIdAndRemove(req.params.id, function (err) {
-        if (err) return next(err);
-        res.send('Deleted successfully!');
+        if (err) res.json({ err: 1, msg: err });
+        res.send({ err:0, msg:"successfully!"});
     })
 }
 

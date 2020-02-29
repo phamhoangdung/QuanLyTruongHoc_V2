@@ -14,6 +14,7 @@ var TaiKhoan = mongoose.Schema({
     password: {
         type: String,
         required: true,
+        default: 1
       },
     role: Number,
 }, schemaOptions);

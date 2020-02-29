@@ -234,6 +234,7 @@ $('#frmDelete').submit((e) => {
                 toastr["success"]("Xóa bản ghi thành công! ");
             }
             else {
+                $("#appConfirm").modal('hide');
                 toastr["error"]("Xảy ra lỗi, " + data.msg);
             }
         })
