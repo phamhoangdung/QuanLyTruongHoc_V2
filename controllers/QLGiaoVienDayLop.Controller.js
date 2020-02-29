@@ -8,7 +8,11 @@ function selectAll(req,res) {
             if (err)
                 throw (err);
             res.json(result);
-        }).skip(parseInt(start)).limit(parseInt(length));
+        }).skip(parseInt(start))
+        .limit(parseInt(length))
+        .populate('tenLop', 'tenMonHoc')
+        .exec();
+        res.json({ "recordsTotal": data.length, "recordsFiltered": total, "data": data, "draw": req.body.draw });
     }
     catch (err) {
         throw (err);

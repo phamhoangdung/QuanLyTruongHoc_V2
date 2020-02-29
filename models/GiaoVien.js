@@ -6,5 +6,7 @@ var GiaoVien = mongoose.Schema({
     tenGiaoVien: String,
     ngaySinh: Date,
     diaChi: String,
+    MonHoc_idMonHoc : {type: mongoose.Schema.Types.ObjectId, ref:'MonHoc'},
+    Lop_idLop : {type: mongoose.Schema.Types.ObjectId, ref:'Lop'},
 },schemaOptions);
 module.exports = mongoose.model("GiaoVien", GiaoVien);
