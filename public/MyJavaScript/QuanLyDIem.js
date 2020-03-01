@@ -96,14 +96,14 @@ var table = $('#tblresult').DataTable({
 
 // insert
 
-$("#btnAdd").click(function () {
-    $('#IDp').val(-1);
-    $('#tenGiaoVien').val(null);
-    $('#Birthday').val(null);
-    $('#Address').val(null);
-    $('#Status').val(0);
-    $("#createmodal").modal('show');
-});
+// $("#btnAdd").click(function () {
+//     $('#IDp').val(-1);
+//     $('#tenGiaoVien').val(null);
+//     $('#Birthday').val(null);
+//     $('#Address').val(null);
+//     $('#Status').val(0);
+//     $("#createmodal").modal('show');
+// });
 
 $("#tblresult").on("click", ".btnEdit", function () {
     var obj = $('#tblresult').DataTable().row($(this).parents('tr')).data();
@@ -180,13 +180,35 @@ $('#frmPut').submit((e) => {
 
 //---- remove 
 $("#btnAdd").on("click", function () {
-    var obj = $('#tblresult').DataTable().row($(this).parents('tr')).data();
-    $("#ID").val(obj._id);
-    $('#appConfirm h4').html("Xoá Giáo Viên");
-    let q = "Bạn có chắc chắn muốn xóa giáo viên <b>" + obj._id + " " + "</b> không?";
-    $("#btnSubmitDetail").html("Xóa")
-    $('#appConfirm h5').html(q);
-    $("#appConfirm").modal('show');
+    var idlop = $('#fillerL').val();
+    var idmon = $('#fillerMH').val();
+    if(idlop != 1 && MonHoc != 1)
+    {
+        $.ajax({
+            url: "/qld/autocreate",
+            method: "post",
+            dataType: 'json',
+            data: {
+                Lop_idLop: idlop,
+                MonHoc_idMonHoc: idmon
+            },
+        })
+            .done((data) => {
+                if (data.err === 0) {
+                    $('#tblresult').DataTable().ajax.reload();
+                    toastr["success"](data.msg);
+                }
+                else {
+                    toastr["error"]("Xảy ra lỗi, " + data.msg);
+                }
+            })
+            .fail(() => {
+                toastr["error"]("Xảy ra lỗi, vui lòng tải lại trang!");
+            });
+    }
+    else
+    toastr["warning"]("Vui lòng chọn lớp và môn học !");
+    
 });
 
 $('#frmDelete').submit((e) => {
@@ -217,36 +239,34 @@ $('#btnAutoCreat').click(() => {
     var lop = $('#fillerL').val();
     var MonHoc = $('#fillerMH').val();
 
-    if (lop != 1 && MonHoc != 1)
-    {
+    if (lop != 1 && MonHoc != 1) {
         $.ajax({
             url: "/qld/autoCreate",
             method: "post",
             data: {
-                Lop_idLop: $('#fillerL').val(),
-                MonHoc_idMonHoc: $('#fillerMH').val()
+                Lop_idLop: lop,
+                MonHoc_idMonHoc: MonHoc
             }
         })
-        .done((data) => {
-            if (data.err === 0) {
-                $('#tblresult').DataTable().ajax.reload();
+            .done((data) => {
+                if (data.err === 0) {
+                    $('#tblresult').DataTable().ajax.reload();
+                    $("#appConfirm").modal('hide');
+                    toastr["success"]("Xóa bản ghi thành công! ");
+                }
+                else {
+                    toastr["error"]("Xảy ra lỗi, " + data.msg);
+                }
+            })
+            .fail(() => {
                 $("#appConfirm").modal('hide');
-                toastr["success"]("Xóa bản ghi thành công! ");
-            }
-            else {
-                toastr["error"]("Xảy ra lỗi, " + data.msg);
-            }
-        })
-        .fail(() => {
-            $("#appConfirm").modal('hide');
-            toastr["error"]("Xảy ra lỗi, vui lòng tải lại trang!");
-        });
+                toastr["error"]("Xảy ra lỗi, vui lòng tải lại trang!");
+            });
     }
-    else
-    {
+    else {
         toastr["warning"]("Vui lòng chọn môn học và lớp học");
     }
-        
+
 })
 toastr.options = {
     "closeButton": true,

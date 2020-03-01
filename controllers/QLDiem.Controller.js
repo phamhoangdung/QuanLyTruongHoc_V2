@@ -25,14 +25,25 @@ async function selectAll(req, res) {
                         if (e.HocSinh_idHocSinh != null && e.MonHoc_idMonHoc != null)
                             datareturn.push(e);
                     })
-
-                    // console.log(result);
-
                     res.json({ "recordsTotal": datareturn.length, "recordsFiltered": total, "data": datareturn, "draw": req.body.draw });
                 })
         }
         else {
-            res.json({ data: [] })
+            DiemModel.find()
+                .skip(parseInt(start))
+                .limit(parseInt(length))
+                .populate({ path: 'HocSinh_idHocSinh' })
+                .populate({ path: 'MonHoc_idMonHoc'})
+                .exec((err, result) => {
+                    if (err)
+                        res.json({ err: 1, msg: err });
+                    // var datareturn = [];
+                    // result.map((e, i) => {
+                    //     if (e.HocSinh_idHocSinh != null && e.MonHoc_idMonHoc != null)
+                    //         datareturn.push(e);
+                    // })
+                    res.json({ "recordsTotal": result.length, "recordsFiltered": total, "data": result, "draw": req.body.draw });
+                })
         }
 
         // res.json(dataResult);
@@ -66,6 +77,7 @@ var checkExist = function (idhs, idmh) {
 }
 
 async function autoCreate(req, res) {
+    console.log(req.body.Lop_idLop);
     DiemModel.init()
     var HocSinh = await HocSinhModel
         .find((err, result) => { return result._id })
@@ -74,8 +86,9 @@ async function autoCreate(req, res) {
     let Diems = [];
     await HocSinh.map(async (e, i) => {
         let check = await checkExist(e._id, req.body.MonHoc_idMonHoc);
+        console.log(check);
+        
         if (check === 0) {
-            //Diems.push(
             await new DiemModel({
                 HocSinh_idHocSinh: e._id,
                 MonHoc_idMonHoc: req.body.MonHoc_idMonHoc,
@@ -87,14 +100,13 @@ async function autoCreate(req, res) {
                 diem1tiet_lan3: -1,
                 diemThiHK: -1,
             }).save((err, result) => {
-                console.log(result);
+                console.log("++");
+                if(err)
+                return res.json({ err: 1, msg: err });
             })
-            //)
         }
-       
     })
-    res.json({ err: 0, msg: "Diem create successfully" });
-    return;
+    return res.json({ err: 0, msg: "Tạo mới bảng điểm thành công !"})
     // res.json(Diems);
     // return;
 

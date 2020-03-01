@@ -6,12 +6,13 @@ var table = $('#tblresult').DataTable({
         "url": "/qlgv",
         "type": "POST",
         "dataType": "json",
-        
         // 'beforeSend': function (request) {
         //     request.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
         // },
         //"cache":false,
         "dataSrc": function (json) {
+            console.log(json);
+            
             json.data.forEach(element => {
                 element.Method = `<a class=" my-method-button btnEdit fa-hover"    title="Sửa Giáo Viên" ><i class="fa fa-edit"></i></a> &nbsp
                                 <a class=" my-method-button btnDelete fa-hover"    title="Xóa Giáo Viên" ><i class="fa fa-trash"></i></a>`;
@@ -21,7 +22,7 @@ var table = $('#tblresult').DataTable({
     },
     "PaginationType": "bootstrap",
     "columnDefs": [
-        { "visible": false, "targets": 1},
+        { "visible": false, "targets": 1 },
         {
             "className": "text-center",
             "width": "50px",
@@ -46,6 +47,10 @@ var table = $('#tblresult').DataTable({
         { "data": 'tenGiaoVien' },
         { "data": 'ngaySinh' },
         { "data": 'diaChi' },
+        { "data": 'MonHoc_idMonHoc._id' },
+        { "data": 'MonHoc_idMonHoc.tenMonHoc' },
+        { "data": 'Lop_idLop._id' },
+        { "data": 'Lop_idLop.tenLop' },
         { "data": 'Method' }
     ],
     bAutoWidth: false,
@@ -62,30 +67,30 @@ $("#btnAdd").click(function () {
     $('#tenGiaoVien').val(null);
     $('#ngaySinh').val(null);
     $('#diaChi').val(null);
-    $('#idLop').val(null);
-    $('#idMonHoc').val(null);
-    $('#Status').val(0);
+    $('#Lop_idLop').val(null);
+    $('#MonHoc_idMonHoc').val(null);
     $("#editmodal").modal('show');
 });
-
-
 
 $('#frmPost').submit((e) => {
     e.preventDefault();
     let form = $('#frmPost').serializeArray();
+    console.log(form);
+    
     $.ajax({
         url: "/qlgv/create",
         method: "POST",
         data: form,
         dataType: 'json'
     })
-        .done((data) => {            
+        .done((data) => {
             if (data.err === 0) {
                 $('#tblresult').DataTable().ajax.reload();
                 $("#editmodal").modal('hide');
                 toastr["success"]("Thêm bản ghi thành công! ");
             }
             else {
+                $("#editmodal").modal('hide');
                 toastr["error"]("Xảy ra lỗi, " + data.msg);
             }
         })
@@ -98,22 +103,22 @@ $('#frmPost').submit((e) => {
 
 $("#tblresult").on("click", ".btnEdit", function () {
     var obj = $('#tblresult').DataTable().row($(this).parents('tr')).data();
-    $('#u_IDp').val(obj.IDp);
+    $('#u_IDp').val(obj._id);
     $('#u_tenGiaoVien').val(obj.tenGiaoVien);
     $('#u_ngaySinh').val(obj.ngaySinh);
     $('#u_diaChi').val(obj.diaChi);
-    $('#u_idLop').val(obj.tenLop);
-    $('#u_idMonHoc').val(obj.tenMonHoc);
+    $('#u_Lop_idLop').val(obj.tenLop);
+    $('#u_MonHoc_idMonHoc').val(obj.tenMonHoc);
     $("#updatemodal").modal('show');
 });
 
 // update
 $('#frmPut').submit((e) => {
-    var id = $('#u_id').val();
+    var id = $('#u_IDp').val();
     e.preventDefault();
     let form = $('#frmPut').serializeArray();
     $.ajax({
-        url: "/qlgv"+id+"/update",
+        url: "/qlgv/" + id + "/update",
         method: "PUT",
         data: form,
         dataType: 'json'
@@ -125,6 +130,7 @@ $('#frmPut').submit((e) => {
                 toastr["success"]("Thêm m bản ghi thành công! ");
             }
             else {
+                $("#updatemodal").modal('hide');
                 toastr["error"]("Xảy ra lỗi, " + data.msg);
             }
         })
@@ -138,7 +144,7 @@ $('#frmPut').submit((e) => {
 //---- remove 
 $("#tblresult").on("click", ".btnDelete", function () {
     var obj = $('#tblresult').DataTable().row($(this).parents('tr')).data();
-    $("#r_id").val(obj._id);
+    $("#ID").val(obj._id);
     $('#appConfirm h4').html("Xoá Giáo Viên");
     let q = "Bạn có chắc chắn muốn xóa giáo viên <b>" + obj.tenGiaoVien + " " + "</b> không?";
     $("#btnSubmit").html("Xóa")
@@ -149,10 +155,10 @@ $("#tblresult").on("click", ".btnDelete", function () {
 $('#frmDelete').submit((e) => {
     e.preventDefault();
     $("#btnSubmit").attr("disabled", true);
-    var id = $('#r_id').val();
+    var id = $('#ID').val();
     $.ajax({
-        url: "/qlgv"+id+"/remove",
-        method: "delete",
+        url: "/qlgv/" + id + "/remove",
+        method: "DELETE",
     })
         .done((data) => {
             if (data.err === 0) {
@@ -161,6 +167,7 @@ $('#frmDelete').submit((e) => {
                 toastr["success"]("Xóa bản ghi thành công! ");
             }
             else {
+                $("#appConfirm").modal('hide');
                 toastr["error"]("Xảy ra lỗi, " + data.msg);
             }
         })

@@ -27,7 +27,13 @@ $('#tblresult').DataTable({
             "targets": [0,7]
         },
         { "visible": false, "targets": [1,3]},
-
+        {
+            "orderable": false,
+            "className": "text-center",
+            targets:4, 
+            render:function(data){
+            return moment(data).format('DD-MM-YYYY');
+          }}
     ],
     "language": {
         "sLengthMenu": "Số bản ghi hiển thị trên 1 trang _MENU_ ",
