@@ -12,7 +12,7 @@ var customdata = {
     "idclass": 1,
     "idsubject": 1
 };
-$('#classFiller').on('change', function() {
+$('#classFiller').on('change', function () {
     // console.log( $(this).find(":selected").val() );
     table.clear();
     // table.ajax.url =  "/qlhs/"+$(this).find(":selected").val();
@@ -36,7 +36,7 @@ var table = $('#tblresult').DataTable({
         "url": "/qlhs/",
         "type": "POST",
         "data": {
-            classFiller : function(){return $('#classFiller').find(":selected").val()}
+            classFiller: function () { return $('#classFiller').find(":selected").val() }
         },
         "dataType": "json",
         // 'beforeSend': function (request) {
@@ -50,6 +50,7 @@ var table = $('#tblresult').DataTable({
             json.data.forEach(element => {
                 element.Method = `<a class=" my-method-button btnEdit fa-hover"    title="Sửa tài khoản" ><i class="fa fa-edit"></i></a> &nbsp
                                 <a class=" my-method-button btnDelete fa-hover"    title="Xóa tài khoản" ><i class="fa fa-trash"></i></a>`;
+                element.ngaySinhHS =  moment(element.ngaySinhHS).format('YYYY-MM-DD');
                 index++;
             });
             return json.data;
@@ -61,7 +62,7 @@ var table = $('#tblresult').DataTable({
             "className": "text-center",
             "width": "50px",
             "orderable": false,
-            "targets": [0,9]
+            "targets": [0, 9]
         },
         // {
         //     "render": (data, type, row) => {
@@ -70,7 +71,7 @@ var table = $('#tblresult').DataTable({
         //     "orderable": false,
         //     "targets": 14
         // },
-         {
+        {
             "render": (data, type, row) => {
                 return data == 1 ? 'Nam' : 'Nữ'
             },
@@ -79,7 +80,7 @@ var table = $('#tblresult').DataTable({
         },
         {
             "visible": false,
-            "targets": [1,7]
+            "targets": [1, 7]
         },
         // {
         //     "name":"ngaySinhHSs",
@@ -95,10 +96,11 @@ var table = $('#tblresult').DataTable({
         {
             "orderable": false,
             "className": "text-center",
-            targets:4, 
-            render:function(data){
-            return moment(data).format('DD-MM-YYYY');
-          }}
+            targets: 4,
+            render: function (data) {
+                return moment(data).format('DD-MM-YYYY');
+            }
+        }
     ],
     "language": {
         "sLengthMenu": "Số bản ghi hiển thị trên 1 trang _MENU_ ",
@@ -144,10 +146,13 @@ $("#btnAdd").click(function () {
 
 $("#tblresult").on("click", ".btnEdit", function () {
     var obj = $('#tblresult').DataTable().row($(this).parents('tr')).data();
-    console.log(obj.ngaySinhHS);
     $('#IDu').val(obj._id);
     $('#u_hoHS').val(obj.hoHS);
     $('#u_tenHS').val(obj.tenHS);
+    // var date = new Date(obj.ngaySinhHS);
+    // var fdate = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+    console.log(typeof obj.ngaySinhHS);
+
     $('#u_ngaySinhHS').val(obj.ngaySinhHS);
     $('#u_diaChiHS').val(obj.diaChiHS);
     $('#u_gioiTinhHS').val(obj.gioiTinhHS);
@@ -186,7 +191,7 @@ $('#frmPut').submit((e) => {
     let form = $('#frmPut').serializeArray();
     var id = $('#IDu').val();
     $.ajax({
-        url: "/qlhs/"+id+"/update",
+        url: "/qlhs/" + id + "/update",
         method: "PUT",
         data: form,
         dataType: 'json'
@@ -224,7 +229,7 @@ $('#frmDelete').submit((e) => {
     let form = $('#frmDelete').serializeArray();
     var id = $('#ID').val();
     $.ajax({
-        url: "/qlhs/"+id+"/remove",
+        url: "/qlhs/" + id + "/remove",
         method: "DELETE",
     })
         .done((data) => {

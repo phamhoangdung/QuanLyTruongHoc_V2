@@ -121,17 +121,17 @@
                                 <div class="col-sm-6">
                                     <label for="username">username</label>
                                     <input type='text' id='c_username' name="username" class="form-control"
-                                        placeholder="Tên đăng nhập" />
+                                        placeholder="Tên đăng nhập" required/>
                                 </div>
                                 <div class="col-sm-6">
                                     <label for="password">password</label>
                                     <input type='password' id='c_password' name="password" class="form-control"
-                                        placeholder="Mật khẩu" />
+                                        placeholder="Mật khẩu" required/>
                                 </div>
                                 <div class="col-sm-6">
                                     <label for="role">role</label>
                                     <input type='role' id='c_role' name="role" class="form-control"
-                                        placeholder="Quyền" />
+                                        placeholder="Quyền" min="0" max="3" required/>
                                 </div>
                             </div>
 
@@ -168,17 +168,17 @@
                                 <div class="col-sm-6">
                                     <label for="username">username</label>
                                     <input type='text' id='u_username' name="username" class="form-control"
-                                        placeholder="username" />
+                                        placeholder="username" required/>
                                 </div>
                                 <div class="col-sm-6">
                                     <label for="password">password</label>
                                     <input type='password' id='u_password' name="password" class="form-control"
-                                        placeholder="password" />
+                                        placeholder="password" required />
                                 </div>
                                 <div class="col-sm-6">
                                     <label for="role">role</label>
-                                    <input type='role' id='u_role' name="role" class="form-control"
-                                        placeholder="Quyền" />
+                                    <input type='number' id='u_role' name="role" class="form-control"
+                                        placeholder="Quyền" min="0" max="3" required/>
                                 </div>
                             </div>
                         </div>

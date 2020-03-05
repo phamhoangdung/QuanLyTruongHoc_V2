@@ -24,15 +24,16 @@ $('#tblresult').DataTable({
             "width": "50px",
             "visible": true,
             "orderable": false,
-            "targets": [0,7]
+            "targets": [0,4,7]
         },
         { "visible": false, "targets": [1,3]},
+
         {
             "orderable": false,
             "className": "text-center",
-            targets:4, 
+            targets:[5,6], 
             render:function(data){
-            return moment(data).format('DD-MM-YYYY');
+            return moment(data).format('HH:mm DD-MM-YYYY');
           }}
     ],
     "language": {
