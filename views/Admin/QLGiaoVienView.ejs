@@ -18,13 +18,11 @@
             <div class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
+                        <div class="col-sm-6">                        
                         <div class="col-sm-6">
-                            <h1 class="m-0 text-dark">Quản lý Giáo Viên </h1>
-                        
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">SubjectManager</li>
+                            <ol class="breadcrumb float-sm-left">
+                                <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+                                <li class="breadcrumb-item active">Quản lý môn học</li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
@@ -35,8 +33,10 @@
             <section class="content">
                 <div class="container-fluid">
                     <div class="card">
-                        <div class="card-header row">
-                            <div class="col-2">
+                        <h4> Quản lý Giáo Viên </h4>
+                        <div class="card-header">
+                        <div class ="row">
+                            <div class="col-sm-2">
                                 <select name="tenLop" id="tenLop" class="form-control">
                                     <option value="1" selected="selected">--Chọn Lớp Học--</option>
                                     <% lop.map((element,index)=>{ %>
@@ -44,13 +44,14 @@
                                     <% }) %>
                                 </select>
                             </div>
-                            <div class="col-2">
+                            <div class="col-sm-2">
                                 <select name="tenMonDay" id="tenMonDay" class="form-control">
                                     <option value="1" selected="selected">--Chọn Môn Học--</option>
                                     <% monHoc.map((element,index)=>{ %>
                                     <option value="<%= element._id %>"><%= element.tenMonHoc%></option>
                                     <% }) %>
                                 </select>
+                            </div>
                             </div>
                         </div>
                         <div class="card-body">
@@ -65,7 +66,6 @@
                                         <th>Địa chỉ</th>
                                         <th>Lớp</th>
                                         <th>Tên môn dạy</th>
-                                        <th>Trạng thái</th>
                                         <th>Thao tác</th>
                                     </tr>
                                 </thead>
@@ -109,7 +109,7 @@
                 <div class="modal-body">
                     <h5></h5>
                     <form method="post" class="form-horizontal" id="frmDelete">
-                        <input type="hidden" id="ID" name="ID">
+                        <input type="hidden" id="r_id" name="ID">
                     </form>
                 </div>
 
@@ -140,24 +140,28 @@
                         <div class="card-body">
                             <div class="row form-group">
                                 <div class="col-md-6">
-                                    <label for="tenGiaoVien">Tên Giáo Viên</label>
-                                    <input type="text" class="form-control" id="tenGiaoVien" name="tenGiaoVien"
-                                        placeholder="Tên Giáo Viên">
+                                    <label for="Ho">Họ </label>
+                                    <input type="text" class="form-control" id="ho" name="ho"
+                                        placeholder="Họ ">
                                 </div>
-                                 <div class="col-sm-6">
-                                    <label for="ngaySinh">Ngày sinh</label>
-                                    <input type='date' id='ngaySinh' name="ngaySinh" class="form-control" placeholder="Ngày sinh"/>
+                                <div class="col-md-6">
+                                    <label for="ten">Tên </label>
+                                    <input type="text" class="form-control" id="ten" name="ten"
+                                        placeholder="Tên">
                                 </div>
                             </div>
                             <div class="row form-group">
+                                 <div class="col-sm-6">
+                                    <label for="ngaySinh">Ngày sinh</label>
+                                    <input type='text' id='ngaySinh' name="ngaySinh" class="form-control" placeholder="Ngày sinh"/>
+                                </div>
                                 <div class="col-sm-6">
                                     <label for="diaChi">Địa chỉ</label>
                                     <input type='text' id='diaChi' name="diaChi" class="form-control" placeholder="Địa chỉ"/>
-
                                 </div>
                                  <div class="col-sm-6">
-                                    <label for="Class">Lớp</label>
-                                        <select name="tenLop" id="idLop" class="form-control">
+                                    <label for="tenLop">Lớp</label>
+                                        <select name="Lop_idLop" id="idLop" class="form-control">
                                             <option value="1" selected="selected">--Chọn Lớp Học--</option>
                                             <% lop.map((element,index)=>{ %>
                                             <option value="<%= element._id %>"><%= element.tenLop%></option>
@@ -165,9 +169,9 @@
                                         </select>
                                 </div>
                                 <div class="col-sm-6">
-                                    <label for="tenMonHoc">Tên Môn Dạy</label>
+                                    <label for="tenMonDay">Tên Môn Dạy</label>
                                     
-                                        <select name="tenMonDay" id="idMonHoc" class="form-control">
+                                        <select name="MonHoc_idMonHoc" id="idMonHoc" class="form-control">
                                             <option value="1" selected="selected">--Chọn Môn Học--</option>
                                             <% monHoc.map((element,index)=>{ %>
                                             <option value="<%= element._id %>"><%= element.tenMonHoc%></option>
@@ -203,29 +207,33 @@
                 <!-- Modal body -->
                 <div class="modal-body">
                     <form role="form" id="frmPut" method="put">
-                        <input type="hidden" class="form-control" id="u_IDp" name="IDp">
+                        <input type="hidden" class="form-control" id="u_id" name="id">
                         <div class="card-body">
                             <div class="row form-group">
                                  <div class="row form-group">
                                 <div class="col-md-6">
-                                    <label for="tenGiaoVien">Tên Giáo Viên</label>
-                                    <input type="text" class="form-control" id="u_tenGiaoVien" name="tenGiaoVien"
-                                        placeholder="Tên Giáo Viên">
+                                    <label for="Ho">Họ </label>
+                                    <input type="text" class="form-control" id="u_ho" name="ho"
+                                        placeholder="Họ ">
                                 </div>
-                            </div>
+                                <div class="col-md-6">
+                                    <label for="ten">Tên </label>
+                                    <input type="text" class="form-control" id="u_ten" name="ten"
+                                        placeholder="Tên">
+                                </div>
                             <div class="row form-group">
                                 <div class="col-sm-6">
                                     <label for="ngaySinh">Ngày sinh</label>
-                                    <input type='date' id='u_ngaySinh' name="ngaySinh" class="form-control" placeholder="Ngày sinh"/>
+                                    <input type='text' id='u_ngaySinh' name="ngaySinh" class="form-control" placeholder="Ngày sinh"/>
                                 </div>
                                 <div class="col-sm-6">
                                     <label for="diaChi">Địa chỉ</label>
                                     <input type='text' id='u_diaChi' name="diaChi" class="form-control" placeholder="Địa chỉ"/>
                                 </div>
                                  <div class="col-sm-6">
-                                    <label for="Class">Lớp</label>
+                                    <label for="tenLop">Lớp</label>
                                      
-                                        <select name="tenLop" id="u_idLop" class="form-control">
+                                        <select name="Lop_idLop" id="u_Lop_idLop" class="form-control">
                                             <option value="1" selected="selected">--Chọn Lớp Học--</option>
                                             <% lop.map((element,index)=>{ %>
                                             <option value="<%= element._id %>"><%= element.tenLop%></option>
@@ -234,9 +242,9 @@
                                     
                                 </div>
                                 <div class="col-sm-6">
-                                    <label for="idMonHoc">Tên Môn Dạy</label>
+                                    <label for="tenMonDay">Tên Môn Dạy</label>
                                     
-                                        <select name="subjectname" id="u_idMonHoc" class="form-control">
+                                        <select name="MonHoc_idMonHoc" id="u_MonHoc_idMonHoc" class="form-control">
                                             <option value="1" selected="selected">--Chọn Môn Học--</option>
                                             <% monHoc.map((element,index)=>{ %>
                                             <option value="<%= element._id %>"><%= element.tenMonHoc%></option>

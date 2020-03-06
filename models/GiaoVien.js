@@ -3,7 +3,8 @@ const schemaOptions = {
     collection: 'GiaoVien', timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
 };
 var GiaoVien = mongoose.Schema({
-    tenGiaoVien: String,
+    ho: String,
+    ten: String,
     ngaySinh: Date,
     diaChi: String,
     MonHoc_idMonHoc : {type: mongoose.Schema.Types.ObjectId, ref:'MonHoc'},

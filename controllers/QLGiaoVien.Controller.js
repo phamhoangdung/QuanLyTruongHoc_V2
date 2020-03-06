@@ -1,18 +1,43 @@
 var GiaoVienModel = require('../models/GiaoVien');
+var MonHoc = require('../models/MonHoc');
+var Lop = require('../models/Lop');
+var HoocSinh = require('../models/HocSinh');
 
 async function selectAll(req, res) {
     var start = req.body.start == null ? 0 : req.body.start;
     var length = req.body.length == null ? 5 : req.body.length;
-    var total = await GiaoVienModel.count();
+    var MonHoc = req.body.MonHoc_idMonHoc;
+    var Lop = req.body.Lop_idLop;
+    var total = await GiaoVienModel.count((err, result)=> {
+        return result;
+    });
     try {
-       var dataResult = await GiaoVienModel.find()
-        .skip(parseInt(start))
-        .limit(parseInt(length))
-        .populate({path:'MonHoc_tenMonHoc'})
-        .populate({path:'Lop_tenLop'})
-        .exec();
-        // res.json(dataResult);
-        res.json({ "recordsTotal": dataResult.length, "recordsFiltered": total, "data": dataResult, "draw": req.body.draw });
+        if (MonHoc != 1 && Lop != 1) {
+            GiaoVienModel.find()
+                .skip(parseInt(start))
+                .limit(parseInt(length))
+                .populate({ path: 'Lop_idLop'})
+                .populate({ path: 'MonHoc_idMonHoc', match: { _id: MonHoc } })
+                // .where({Lop_idLop: req.body.Lop_idLop, MonHoc_idMonHoc: req.body.MonHoc_idMonHoc})
+                .exec((err, result) => {
+                    if (err)
+                        res.json({ err: 1, msg: err });
+                    var data = [];
+                    // console.log(result);
+
+                    result.map((e, i) => {
+                        if (e.Lop_idLop != null && e.MonHoc_idMonHoc != null)
+                            data.push(e);
+                    })
+                    // console.log(data);
+
+                    res.json({ "recordsTotal": data.length, "recordsFiltered": total, "data": data, "draw": req.body.draw });
+                })
+        }
+        else {
+            res.json({ data: [] })
+        }
+        
     }
     catch (err) {
         throw (err);
@@ -25,8 +50,10 @@ function getByID(req, res) {
     })
 }
 function create(req, res) {
+    console.log(req.body);
     let GiaoVien = new GiaoVienModel({
-        tenGiaoVien: req.body.tenGiaoVien,
+        ho: req.body.ho,
+        ten: req.body.ten,
         ngaySinh: req.body.ngaySinh,
         diaChi: req.body.diaChi,
         MonHoc_idMonHoc : req.body.MonHoc_idMonHoc,
@@ -35,24 +62,26 @@ function create(req, res) {
     console.log(GiaoVien);
     GiaoVien.save((err) => {
         if (err) {
-            throw (err);
+            res.json({err:1,msg:'them ban ghi loi '+ err})
         }
-        res.json('GiaoVien insert successfully');
+        res.json({err:0,msg:'da them thanh cong'});
     })
 }
 function update(req, res) {
-    console.log(req.params.id);
+    console.log(req.body);
     GiaoVienModel.findByIdAndUpdate(req.params.id, { $set: req.body }, function (err, product) {
+
         if (err) {
-            console.log(err);
+            return res.json({err:1,msg:'update ban ghi loi'+ err})
         }
-        res.send('Product udpated.');
+        res.json({err:0,msg:'update ban ghi thanh cong'});
     });
 }
 function remove(req, res) {
     GiaoVienModel.findByIdAndRemove(req.params.id, function (err) {
-        if (err) return next(err);
-        res.send('Deleted successfully!');
+        if (err)
+            return res.json({err:1, msg:'xay ra loi'+err})
+        res.json({err:0,msg:'xoa thanh cong'});
     })
 }
 module.exports = {

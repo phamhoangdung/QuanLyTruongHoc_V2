@@ -157,7 +157,7 @@ $('#frmPut').submit((e) => {
             if (data.err === 0) {
                 $('#tblresult').DataTable().ajax.reload();
                 $("#updatemodal").modal('hide');
-                toastr["success"]("Thêm m bản ghi thành công! ");
+                toastr["success"]("update m bản ghi thành công! ");
             }
             else {
                 toastr["error"]("Xảy ra lỗi, " + data.msg);
