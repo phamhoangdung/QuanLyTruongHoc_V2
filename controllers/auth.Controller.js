@@ -1,79 +1,79 @@
-var jwt = require('jsonwebtoken');  
+// var jwt = require('jsonwebtoken');  
 var User = require('../models/TaiKhoan');
 
-function generateToken(user){
-    return jwt.sign(user, 'phamhoangdung', {
-        expiresIn: 10080
-    });
-}
+// function generateToken(user){
+//     return jwt.sign(user, 'phamhoangdung', {
+//         expiresIn: 10080
+//     });
+// }
 
-function setUserInfo(request){
-    return {
-        _id: request._id,
-        email: request.email,
-        role: request.role
-    };
-}
+// function setUserInfo(request){
+//     return {
+//         _id: request._id,
+//         email: request.email,
+//         role: request.role
+//     };
+// }
 
-exports.login = function(req, res, next){
-    var userInfo = setUserInfo(req.user);
+// exports.login = function(req, res, next){
+//     var userInfo = setUserInfo(req.user);
     
-    res.status(200).json({
-        token: 'JWT ' + generateToken(userInfo),
-        user: userInfo
-    });
+//     res.status(200).json({
+//         token: 'JWT ' + generateToken(userInfo),
+//         user: userInfo
+//     });
 
-}
+// }
 
-exports.register = function(req, res, next){
-    console.log(req.body);
+// exports.register = function(req, res, next){
+//     console.log(req.body);
     
-    var email = req.body.email;
-    var password = req.body.password;
-    var role = req.body.role;
+//     var email = req.body.email;
+//     var password = req.body.password;
+//     var role = req.body.role;
 
-    if(!email){
-        return res.status(422).send({error: 'Bạn cần nhập tên đăng nhập'});
-    }
+//     if(!email){
+//         return res.status(422).send({error: 'Bạn cần nhập tên đăng nhập'});
+//     }
 
-    if(!password){
-        return res.status(422).send({error: 'Bạn cần nhập mật khẩu'});
-    }
+//     if(!password){
+//         return res.status(422).send({error: 'Bạn cần nhập mật khẩu'});
+//     }
 
-    User.findOne({email: email}, function(err, existingUser){
+//     User.findOne({email: email}, function(err, existingUser){
         
-        if(err){
-            return next(err);
-        }
+//         if(err){
+//             return next(err);
+//         }
 
-        if(existingUser){
-            return res.status(422).send({error: 'Tên đăng nhập đã được sử dụng'});
-        }
+//         if(existingUser){
+//             return res.status(422).send({error: 'Tên đăng nhập đã được sử dụng'});
+//         }
 
-        var user = new User({
-            email: email,
-            password: password,
-            role: role
-        });
+//         var user = new User({
+//             email: email,
+//             password: password,
+//             role: role
+//         });
 
-        user.save(function(err, user){
+//         user.save(function(err, user){
 
-            if(err){
-                return next(err);
-            }
+//             if(err){
+//                 return next(err);
+//             }
 
-            var userInfo = setUserInfo(user);
+//             var userInfo = setUserInfo(user);
 
-            res.status(201).json({
-                token: 'JWT ' + generateToken(userInfo),
-                user: userInfo
-            })
+//             res.status(201).json({
+//                 token: 'JWT ' + generateToken(userInfo),
+//                 user: userInfo
+//             })
 
-        });
+//         });
 
-    });
+//     });
 
-}
+// }
 
 exports.roleAuthorization = function(roles){
     return function(req, res, next){
