@@ -128,10 +128,13 @@
                                     <input type='password' id='c_password' name="password" class="form-control"
                                         placeholder="Mật khẩu" required/>
                                 </div>
-                                <div class="col-sm-6">
-                                    <label for="role">role</label>
-                                    <input type='role' id='c_role' name="role" class="form-control"
-                                        placeholder="Quyền" min="0" max="3" required/>
+                                <div class="col-md-6">
+                                    <label for="role">Loại tài khoản</label>
+                                    <select name="role" class="form-control" id="c_role" style="width: 100%">
+                                        <option value="admin">Quản trị viên</option>
+                                        <option value="teacher">Giáo viên</option>
+                                        <option value="student" selected>Học sinh</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -175,10 +178,13 @@
                                     <input type='password' id='u_password' name="password" class="form-control"
                                         placeholder="password" required />
                                 </div>
-                                <div class="col-sm-6">
-                                    <label for="role">role</label>
-                                    <input type='number' id='u_role' name="role" class="form-control"
-                                        placeholder="Quyền" min="0" max="3" required/>
+                                <div class="col-md-6">
+                                    <label for="role">Loại tài khoản</label>
+                                    <select name="role" class="form-control" id="u_role" style="width: 100%">
+                                        <option value="admin">Quản trị viên</option>
+                                        <option value="teacher">Giáo viên</option>
+                                        <option value="student" selected>Học sinh</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>

@@ -106,34 +106,7 @@ async function autoCreate(req, res) {
             })
         }
     })
-    return res.json({ err: 0, msg: "Tạo mới bảng điểm thành công !"})
-    // res.json(Diems);
-    // return;
-
-    //  console.log(Diems);
-
-    // if(await Diems.count > 0)
-    // {
-    //     async.mapSeries(Diems, function (diem, asyncdone) {
-    //         console.log("=>" + asyncdone);
-    //         diem.save(asyncdone);
-    //     }, function (err) {
-    //         if (err) return console.log(err);
-    //         res.json({ err: 0, msg: "Diem create successfully" });
-    //         return;
-    //         // done(); // or `done(err)` if you want the pass the error up
-    //     });
-    // }
-
-    //  Diem.forEach(async (e,i)=>{
-    //     console.log(i);
-    //     await Diem[i].save( (err, result)=>{
-    //         console.log(result);
-    //         // res.setHeader('Content-Type', 'text/plain');
-    //         res.json({ err: 0, msg: "Diem create successfully" });
-    //         return; 
-    //     })
-    // })
+    return res.json({ err: 0, msg: "Tạo mới bảng điểm thành công !"});
 }
 
 function create(req, res) {

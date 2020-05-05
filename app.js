@@ -38,6 +38,7 @@ var QLHocKyapi = require('./routes/api/QLHocKy.Route');
 var QLGiaoVienapi = require('./routes/api/QLGiaoVien.Route');
 var QLGiaoVienDayLopapi = require('./routes/api/QLGiaoVienDayLop.Route');
 var QLDiemapi = require('./routes/api/QLDiem.Route');
+var AuthenticationController = require('./controllers/auth.Controller');
 //===================!api=================
 
 // view engine setup
@@ -57,12 +58,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 //mongoose.connect('mongodb://localhost/QuanLyTruongHoc', { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connect('mongodb+srv://ahtuser:Admin1324@quanlytruonghoc-urj1l.mongodb.net/QuanLyTruongHoc?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://ahtuser:Admin1324@quanlytruonghoc-urj1l.mongodb.net/QuanLyTruongHoc?retryWrites=true&w=majority', {
+  useCreateIndex: true,
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false
+})
 .then((res)=>{
-  console.log("connect success");
+  console.log(">> connect success");
 }).catch((err)=>{
   console.log(err);
 });
+
 var MongoStore = require('connect-mongo')(session);
 var db = mongoose.connection;
 
@@ -114,17 +121,17 @@ require('./routes/Admin/Auth.Route')(app, passport);
 
 
 //===================admin=================
-app.use('/admin', isLoggedIn, acl.middleware(1, getusername), indexadmin);
-app.use('/qlhs', isLoggedIn, acl.middleware(1, getusername), QLHocSinh);
-app.use('/qllh', isLoggedIn, acl.middleware(1, getusername), QLLopHoc);
-app.use('/qltk', isLoggedIn, acl.middleware(1, getusername), QLTaiKhoan);
-app.use('/qlmh', isLoggedIn, acl.middleware(1, getusername), QLMonHoc);
-app.use('/qlhk', isLoggedIn, acl.middleware(1, getusername), QLHocKy);
-app.use('/qlgv', isLoggedIn, acl.middleware(1, getusername), QLGiaoVien);
-app.use('/qlgvdl', isLoggedIn, acl.middleware(1, getusername), QLGiaoVienDayLop);
-app.use('/qld', isLoggedIn, QLDiem);
+app.use('/admin', isLoggedIn, indexadmin);
+app.use('/qlhs', isLoggedIn,AuthenticationController.roleAuthorization(['admin','teacher']), QLHocSinh);
+app.use('/qllh', isLoggedIn,AuthenticationController.roleAuthorization(['admin']), QLLopHoc);
+app.use('/qltk', isLoggedIn,AuthenticationController.roleAuthorization(['admin']), QLTaiKhoan);
+app.use('/qlmh', isLoggedIn,AuthenticationController.roleAuthorization(['admin']), QLMonHoc);
+app.use('/qlhk', isLoggedIn,AuthenticationController.roleAuthorization(['admin']), QLHocKy);
+app.use('/qlgv', isLoggedIn,AuthenticationController.roleAuthorization(['admin']), QLGiaoVien);
+app.use('/qlgvdl', isLoggedIn,AuthenticationController.roleAuthorization(['admin']), QLGiaoVienDayLop);
+app.use('/qld', isLoggedIn,AuthenticationController.roleAuthorization(['admin','teacher']), QLDiem);
 //==================!admin=================
-
+  
 //===================api=================
 app.use('/api',indexapi);
 app.use('/api/qlhs',QLHocSinhapi);

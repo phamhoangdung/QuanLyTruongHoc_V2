@@ -10,13 +10,17 @@ var TaiKhoan = mongoose.Schema({
         unique: true,
         required: true,
         trim: true
-      },
+    },
     password: {
         type: String,
         required: true,
         default: 1
-      },
-    role: Number,
+    },
+    role: {
+        type: String,
+        enum: ['admin', 'teacher', 'student'],
+        default: 'student'
+    },
 }, schemaOptions);
 
 module.exports = mongoose.model("TaiKhoan", TaiKhoan);

@@ -29,7 +29,7 @@ async function create(req, res) {
     let TaiKhoan = new TaiKhoanModel({
         username: req.body.username,
         password: await TaiKhoanModel.encrypt(req.body.password),
-        role: req.body.role == "" ? 1 : req.body.role,
+        role: req.body.role,
     });
     console.log(req.body.username);
     console.log("=>" + await checknum(req.body.username));
@@ -46,7 +46,6 @@ async function create(req, res) {
 async function update(req, res) {
     if (req.body.password) {
         req.body.password = await TaiKhoanModel.encrypt(req.body.password);
-        console.log(req.body.password);
     }
     var update = {
         username: req.body.username,

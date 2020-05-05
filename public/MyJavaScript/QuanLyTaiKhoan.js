@@ -66,7 +66,7 @@ $('#tblresult').DataTable({
 
 $("#btnAdd").click(function () {
     $('#c_username').val(null);
-    $('#c_role').val(null);
+    // $('#c_role').val(null);
     $('#c_password').val(null);
     $("#creatmodal").modal('show');
 });
